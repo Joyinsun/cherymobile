@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "jsx": "react",
+        "outDir": "./dist",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "preserveConstEnums": true,
+        "watch": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

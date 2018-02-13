@@ -1,0 +1,73 @@
+{
+  "DEFAULT_THEME":{
+    // Common
+    "navBarTextColor": '#000000', // change the text color of the title (remembered across pushes)
+    "navBarTextFontSize": 18, // change the font size of the title
+    "navBarTextFontFamily": 'font-name', // Changes the title font
+    "navBarBackgroundColor": '#f7f7f7', // change the background color of the nav bar (remembered across pushes)
+
+    "navBarButtonColor": '#007aff', // Change color of nav bar buttons (eg. the back button) (remembered across pushes)
+    "statusBarTextColorScheme": 'dark', // text color of status bar, 'dark' / 'light' (remembered across pushes)
+    "statusBarTextColorSchemeSingleScreen": 'light', // same as statusBarTextColorScheme but does NOT remember across pushes
+    "navBarSubtitleColor": 'red', // subtitle color
+    "navBarSubtitleFontFamily": 'font-name', // subtitle font
+    "screenBackgroundColor": 'white', // Default screen color, visible before the actual react view is rendered,
+    "tabBarBackgroundColor": '#ffffff',
+
+    // iOS only
+    "navBarButtonFontSize": 20, // Change font size nav bar buttons (eg. the back button) (remembered across pushes)
+    "navBarButtonFontWeight": '500', // Change font weight nav bar buttons (eg. the back button) (remembered across pushes)
+
+    "navBarLeftButtonFontSize": 17, // Change font size of left nav bar button
+    "navBarLeftButtonColor": 'red', // Change color of left nav bar button
+    "navBarLeftButtonFontWeight": '400', // Change font weight of left nav bar button
+
+    "navBarRightButtonFontSize": 17, // Change font size of right nav bar button
+    "navBarRightButtonColor": 'blue', // Change color of right nav bar button
+    "navBarRightButtonFontWeight": '600', // Change font weight of right nav bar button
+
+    // Android only
+    "navigationBarColor": '#000000', // change the background color of the bottom native navigation bar.
+    "statusBarColor": '#000000', // change the color of the status bar.
+    "collapsingToolBarCollapsedColor": '#0f2362', // Collapsing Toolbar scrim color.
+    "forceTitlesDisplay":true
+  },
+  "DARK_THEME":{
+    // Common
+    "navBarTextColor": '#ffffff', // change the text color of the title (remembered across pushes)
+    "navBarTextFontSize": 18, // change the font size of the title
+    "navBarTextFontFamily": 'font-name', // Changes the title font
+    "navBarBackgroundColor": '#003a66', // change the background color of the nav bar (remembered across pushes)
+
+    "navBarButtonColor": '#ffffff', // Change color of nav bar buttons (eg. the back button) (remembered across pushes)
+    "statusBarTextColorScheme": 'dark', // text color of status bar, 'dark' / 'light' (remembered across pushes)
+    "statusBarTextColorSchemeSingleScreen": 'light', // same as statusBarTextColorScheme but does NOT remember across pushes
+    "navBarSubtitleColor": 'red', // subtitle color
+    "navBarSubtitleFontFamily": 'font-name', // subtitle font
+    "screenBackgroundColor": 'white', // Default screen color, visible before the actual react view is rendered
+
+    "tabBarBackgroundColor": '#003a66',
+    "tabBarButtonColor": '#ffffff',
+
+    "tabBarSelectedButtonColor": '#ff505c',
+    "tabFontFamily": 'BioRhyme-Bold',
+
+    // iOS only
+    "navBarButtonFontSize": 20, // Change font size nav bar buttons (eg. the back button) (remembered across pushes)
+    "navBarButtonFontWeight": '500', // Change font weight nav bar buttons (eg. the back button) (remembered across pushes)
+
+    "navBarLeftButtonFontSize": 17, // Change font size of left nav bar button
+    "navBarLeftButtonColor": 'red', // Change color of left nav bar button
+    "navBarLeftButtonFontWeight": '400', // Change font weight of left nav bar button
+
+    "navBarRightButtonFontSize": 17, // Change font size of right nav bar button
+    "navBarRightButtonColor": 'blue', // Change color of right nav bar button
+    "navBarRightButtonFontWeight": '600', // Change font weight of right nav bar button
+
+    // Android only
+    "navigationBarColor": '#003a66', // change the background color of the bottom native navigation bar.
+    "statusBarColor": '#002b4c', // change the color of the status bar.
+    "collapsingToolBarCollapsedColor": '#0f2362', // Collapsing Toolbar scrim color.
+    "forceTitlesDisplay":true
+  }
+}

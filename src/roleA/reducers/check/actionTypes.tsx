@@ -1,0 +1,4 @@
+"use strict";
+
+export const ROLEA_FETCH_CHECK_LIST = "ROLEA_FETCH_CHECK_LIST";
+export const ROLEA_FETCHING_CHECK_LIST = "FETCHING_CHECK_LIST";

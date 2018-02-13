@@ -1,0 +1,120 @@
+import * as React from "react";
+import { Component } from "react";
+import {
+    StyleSheet,
+    View,
+    FlatList,
+    Text
+} from "react-native";
+
+import { connect, Dispatch } from "react-redux";
+import SegmentedControlTab from "react-native-segmented-control-tab";
+
+import styles from "../../styles/waitApprovalTabsStyle";
+import ILead from "../../../app/interfaces/lead";
+import IPager from "../../../app/interfaces/pager";
+import ApprovalItem from "../../../app/components/ApprovalItem";
+import { fetchRoleDApproveLeadList } from "../../reducers/waitAprovalLead/actions";
+
+interface Props {
+    navigator: any;
+    leadList: {
+		data: IPager<ILead>
+		refresh: boolean
+	};
+    dispatch: Dispatch<any>;
+    fetchRoleDApproveLeadList(navigator: any, page: number, refresh: boolean): void;
+}
+
+interface State {
+    selectedIndex: number;
+}
+
+class WaitApproval extends Component< Props, State> {
+    public state: State = {
+        selectedIndex: 0
+    };
+    public componentDidMount() {
+        this.props.fetchRoleDApproveLeadList(this.props.navigator, 1, true);
+    }
+    public render() {
+        let refresh = this.props.leadList ? this.props.leadList.refresh : false;
+        let data = this.props.leadList.data ? this.props.leadList.data.list : [];
+        console.log("data------------");
+        console.log(data);
+        let listArr = this.filterLeadInfo(data);
+        return (<View style={{ flex: 1 }}>
+            <SegmentedControlTab
+                values={["待审批", "已审批"]}
+                selectedIndex={this.state.selectedIndex}
+                onTabPress={this.handleIndexChange}
+                borderRadius={4}
+                tabsContainerStyle={styles.tabContainer}
+                tabStyle={styles.tab}
+                activeTabStyle={{ backgroundColor: "#000" }}
+                tabTextStyle={styles.tabTextStyle}
+                activeTabTextStyle={styles.activeTabTextStyle} />
+            {this.state.selectedIndex === 0 &&
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={listArr[0]}
+                    renderItem={({item}) => this.renderItem(item)}
+                    refreshing={refresh}
+                    onRefresh={() => this.onRefresh()}
+                >
+                </FlatList>}
+            {this.state.selectedIndex === 1 &&
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={listArr[1]}
+                    renderItem={({item}) => this.renderItem(item)}
+                    refreshing={refresh}
+                    onRefresh={() => this.onRefresh()}>
+                </FlatList>}
+        </View>);
+    }
+
+    private renderItem(item) {
+        return(
+            <ApprovalItem lead={item} navigator={this.props.navigator}/>
+        );
+    }
+
+    private filterLeadInfo(list): Array<Array<any>> {
+        console.log("filterLeadInfo");
+        let listArr = [], arr1 = [], arr2 = [];
+        list.map((item) => {
+            if (item.ApprovalStatus === "1") {
+                arr1.push(item);
+            } else if (item.ApprovalStatus === "3" || item.ApprovalStatus === "4") {
+                arr2.push(item);
+            }
+        });
+        listArr.push(arr1, arr2);
+        return listArr;
+    }
+    private handleIndexChange = (index) => {
+        console.log(index);
+        this.setState({
+            selectedIndex: index,
+        });
+    }
+    private onRefresh(): void {
+        this.props.fetchRoleDApproveLeadList(this.props.navigator, 1, true);
+    }
+}
+function mapStateToProps(state: any) {
+	return {
+		leadList: state.roled_approve_lead.leadList,
+	};
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		fetchRoleDApproveLeadList: (navigator: any, page: number, refresh: boolean) => {
+			dispatch(fetchRoleDApproveLeadList(navigator, page, refresh));
+		},
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WaitApproval);
