@@ -8,6 +8,7 @@ import {
 import styles from "./dashlineStyle";
 
 interface Props {
+    style?: any;
     visible?: boolean;
     isTitle?: boolean;
     height?: any;
@@ -29,7 +30,7 @@ export default class DashLine extends Component<Props, any> {
         //             }
         //         </View>
         //     </View>);
-        return(<View style = {[styles.titleHeaderIcon]}>
+        return(<View style = {[styles.titleHeaderIcon, this.props.style]}>
             <View style={[this.props.visible === false ? styles.dashLineInvisible : styles.fullLine]} />
         </View>);
     }

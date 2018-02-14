@@ -2,7 +2,8 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const counselorTabsScreenStyle = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "#fff"
     },
     content: {
         flex: 1

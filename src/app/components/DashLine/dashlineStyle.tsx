@@ -7,8 +7,8 @@ const dashlineStyle = StyleSheet.create({
     },
     titleHeaderIcon: {
         height: "100%",
-        alignItems: "center",
-        width: 60
+        justifyContent: "center",
+        alignItems: "center"
     },
     dashItem: {
         height: 1,
@@ -21,9 +21,9 @@ const dashlineStyle = StyleSheet.create({
         display: "none"
     },
     fullLine: {
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: "black",
+        width: 2,
+        // borderStyle: "solid",
+        backgroundColor: "#fcc2ca",
         flex: 1,
     }
 });

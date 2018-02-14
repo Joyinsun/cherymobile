@@ -1,38 +1,70 @@
 
 import { StyleSheet, Dimensions } from "react-native";
+import * as Constants from "../../../lib/Constants";
 
 const timelineStyle = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
 	},
 	listview: {
 		flex: 1
 	},
 	title: {
-		fontSize: 12
+		fontSize: 16,
+		color: Constants.COLOR.GREY_666
+	},
+	subTitle: {
+		fontSize: 13,
+		color: Constants.COLOR.GREY_999
+	},
+	leftTimeline: {
+		flex: 1,
+		alignItems: "center"
+	},
+	leftTimelineIcon: {
+		width: 28,
+		height: 28,
+		marginBottom: 5
 	},
 	rowContainer: {
-		paddingLeft: 5,
+		flex: 1,
 		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "center"
 	},
-	detailText: { textAlign: "left", },
+	detailText: {
+		textAlign: "left"
+	},
 	titleHeaderIcon: {
-		height: 40,
 		alignItems: "center",
-		width: 60
+		width: 28,
+		marginRight: 4,
+		// flex: 1,
+		// borderWidth: 1,
+		// borderColor: "#000",
+		justifyContent: "flex-start"
+	},
+	itemContentCard: {
+		borderRadius: 5,
+		paddingVertical: 10,
+		paddingHorizontal: 15,
+		backgroundColor: Constants.COLOR.WHITE,
+		width: Constants.SCREEN_WIDTH - 55,
+		marginBottom: 55
 	},
 	toolBar: {
-		justifyContent: "space-around",
+		justifyContent: "flex-start",
 		alignItems: "center",
 		flexDirection: "row",
-		backgroundColor: "grey",
-		borderRadius: 10,
-		flex: 1
 	},
 	toolBarIcon: {
-		marginRight: 0,
-		fontSize: 20
+		width: 25,
+		height: 25,
+		marginRight: 30
+	},
+	ellipseIcon: {
+		width: 15,
+		height: 15,
+		marginBottom: 5
 	},
 	feedbackDetail: {
 		borderTopWidth: 1,
@@ -44,16 +76,10 @@ const timelineStyle = StyleSheet.create({
 		marginRight: 10
 	},
 	feedbackDetailBox: {
-		borderRadius: 10,
-		backgroundColor: "grey",
-		marginRight: 0,
-		marginTop: 5,
-		marginBottom: 5,
-		flex: 1
+		// flex: 1
 	},
 	shortDetailBox: {
 		borderRadius: 10,
-		backgroundColor: "grey",
 		marginRight: 0,
 		marginTop: 5,
 		marginBottom: 5,
@@ -61,10 +87,7 @@ const timelineStyle = StyleSheet.create({
 		flex: 1
 	},
 	detailBox: {
-		borderRadius: 10,
-		backgroundColor: "grey",
-		marginRight: 0,
-		alignItems: "center",
+		// marginLeft: 14
 		flex: 1
 	}
 
