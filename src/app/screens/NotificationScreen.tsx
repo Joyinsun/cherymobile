@@ -22,8 +22,10 @@ class NotificationScreen extends Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <View style={{elevation: 2, display: "flex", width: Constants.SCREEN_WIDTH, height: 64, paddingLeft: 15, justifyContent: "center", alignItems: "center", flexDirection: "column", backgroundColor: Constants.COLOR.WHITE, borderBottomWidth: 1, borderBottomColor: Constants.COLOR.DIVIDER}}>
-        {this.props.content}
+      <View style={{width: Constants.SCREEN_WIDTH, height: 66, backgroundColor: "transparent"}}>
+        <View style={{elevation: 2, display: "flex", width: Constants.SCREEN_WIDTH, height: 64, paddingLeft: 15, justifyContent: "center", alignItems: "center", flexDirection: "column", backgroundColor: Constants.COLOR.WHITE}}>
+          {this.props.content}
+        </View>
       </View>);
   }
 }
