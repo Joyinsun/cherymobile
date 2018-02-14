@@ -45,8 +45,8 @@ const timelineStyle = StyleSheet.create({
 	},
 	itemContentCard: {
 		borderRadius: 5,
-		paddingVertical: 10,
-		paddingHorizontal: 15,
+		paddingVertical: 12,
+		// paddingHorizontal: 15,
 		backgroundColor: Constants.COLOR.WHITE,
 		width: Constants.SCREEN_WIDTH - 55,
 		marginBottom: 55
@@ -54,6 +54,7 @@ const timelineStyle = StyleSheet.create({
 	toolBar: {
 		justifyContent: "flex-start",
 		alignItems: "center",
+		paddingHorizontal: 15,
 		flexDirection: "row",
 	},
 	toolBarIcon: {
@@ -89,7 +90,16 @@ const timelineStyle = StyleSheet.create({
 	detailBox: {
 		// marginLeft: 14
 		flex: 1
+	},
+	toggleButtonBox: {
+		flex: 1,
+		height: 32,
+		alignItems: "center",
+		justifyContent: "flex-end"
+	},
+	buttonText: {
+		fontSize: 15,
+		color: Constants.COLOR.GREY_999
 	}
-
 });
 export default timelineStyle;
