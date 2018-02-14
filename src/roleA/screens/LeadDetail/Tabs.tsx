@@ -77,12 +77,13 @@ class Tab extends AppComponent<Props, State> {
             return (<View style={{ flex: 1 }}></View>);
         } else {
             return (
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, backgroundColor: Constants.COLOR.BG_GREY }}>
                     <ScrollableTabView
                         renderTabBar={() => <DefaultTabBar style={{ borderTopWidth: 1, borderBottomWidth: 0 }} />}
-                        tabBarBackgroundColor="#FFFFFF"
-                        tabBarActiveTextColor="#252525"
-                        tabBarInactiveTextColor="#454545"
+                        // tabBarTextStyle={{lineHeight: 44}}
+                        tabBarBackgroundColor={Constants.COLOR.WHITE}
+                        tabBarActiveTextColor={Constants.COLOR.DARKGREY}
+                        tabBarInactiveTextColor={Constants.COLOR.GREY_999}
                         locked={false}
                         tabBarUnderlineStyle={{ backgroundColor: Constants.COLOR.DEEP_RED, height: 3 }}>
                         <FollowInfo tabLabel="跟进情况" defaultShow={this.props.selctedType} navigator={this.props.navigator} lead={data} />
