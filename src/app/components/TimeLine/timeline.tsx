@@ -96,9 +96,7 @@ export default class Timeline extends Component<Props, State> {
     } else {
       content = (
         <View style={[{flexDirection: "row" }]}>
-          {/* <View> */}
             {this._renderTitileIcon(rowData, sectionID, rowID)}
-          {/* </View> */}
           <View style={{justifyContent: "flex-start"}}>
             {this._renderTitile(rowData, sectionID, rowID)}
             {this._renderDetail(rowData, sectionID, rowID)}
@@ -107,7 +105,8 @@ export default class Timeline extends Component<Props, State> {
       );
     }
     return (
-      <View key={rowID} style={{marginTop: 5}}>
+      <View key={rowID} style={{marginBottom: 5, borderWidth: 0}}>
+        {/* Attention: please do not delete property `borderWidth: 0`*/}
         {content}
       </View>
     );
@@ -191,11 +190,12 @@ export default class Timeline extends Component<Props, State> {
     );
   }
   private expandDetail(rowID) {
-    this.state.rowIds.push(rowID);
+    let aRowIds = this.state.rowIds;
+    aRowIds.push(rowID);
     this.setState({
       data: this.state.data,
       dataSource: ds.cloneWithRows(this.state.data),
-      rowIds: this.state.rowIds
+      rowIds: aRowIds
     });
   }
   private unexpandDetail(rowID) {
@@ -215,15 +215,31 @@ export default class Timeline extends Component<Props, State> {
     let oDetailBox = null;
     if (this.aTypes.includes(rowData.GroupCode)) {
       if (this.state.rowIds.includes(rowID)) {
-        oDetailBox = (<View style={[styles.itemContentCard, styles.detailBox]}>
-          <ButtonGroup data={rowData} expand={true} />
-          <Button title={"收起"} onPress={() => this.unexpandDetail(rowID)} />
-        </View>);
+        oDetailBox = (
+          <View style={[styles.itemContentCard, styles.detailBox]}>
+            <ButtonGroup data={rowData} expand={true} />
+            <TouchableOpacity
+              style={styles.toggleButtonBox}
+              onPress={() => this.unexpandDetail(rowID)}
+            >
+              <Text style={styles.buttonText}>收起</Text>
+            </TouchableOpacity>
+          </View>
+        );
       } else {
-        oDetailBox = (<View style={[styles.itemContentCard, styles.detailBox]}>
-          <ButtonGroup data={rowData} expand={false} />
-          <Button title={"展开"} onPress={() => this.expandDetail(rowID)} />
-        </View>);
+        oDetailBox = (
+          <View style={[styles.itemContentCard, styles.detailBox]}>
+            <ButtonGroup data={rowData} expand={false} />
+            <TouchableOpacity
+              style={styles.toggleButtonBox}
+              onPress={() => this.expandDetail(rowID)}
+            >
+              <View style={styles.toggleButton}>
+                <Text style={styles.buttonText}>展开</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        );
       }
     } else {
       oDetailBox = (<View style={[ styles.shortDetailBox]}>
@@ -236,10 +252,6 @@ export default class Timeline extends Component<Props, State> {
       </View>);
     }
     return oDetailBox;
-    // return (
-    //   <View style={[styles.rowContainer]}>
-    //       {oDetailBox}
-    //   </View>);
   }
   private _renderTitile(rowData, sectionID, rowID) {
     const info: any = {

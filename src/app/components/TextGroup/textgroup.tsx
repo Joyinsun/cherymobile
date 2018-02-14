@@ -10,6 +10,7 @@ import RowAndroid from "../row/index.android";
 import RowIos from "../row/index.ios";
 import * as Constants from "../../../lib/Constants";
 import Utils from "../../../lib/util";
+import _ from "lodash";
 const width = Constants.SCREEN_WIDTH;
 interface Props {
    data: any;
@@ -77,20 +78,29 @@ export default class TextGroup extends Component<Props, State> {
             that.props.data.Purpose.split(",").map((item2) => {
                 if (item.key === item2) {
                     if (aGroup.length < 3) {
-                        aGroup.push(<Text key={index} style={[styles.textStyle]} > {item.text} </Text>);
+                        aGroup.push(
+                                <View style={styles.defaultBtn} key={index}>
+                                    <Text style={styles.buttonText}>{item.text}</Text>
+                                </View>
+                        );
                     } else {
-                        bGroup.push(<Text key={index} style={[styles.textStyle]} > {item.text} </Text>);
+                        aGroup.push(
+                                <View style={styles.defaultBtn} key={index}>
+                                    <Text style={styles.buttonText}>{item.text}</Text>
+                                </View>
+                        );
                     }
                 }
             });
         });
-        return (<View style={[styles.groupContainer]}>
-            <View style={[styles.groupDetail]}>{aGroup}</View>
-            <View style={[styles.groupDetail, bGroup.length <= 0 ? styles.groupInvisible : {}]}>{bGroup}</View>
-            <View>
-                {aRows}
+
+        return (
+            <View style={[styles.tableContaint]}>
+                <View style={[styles.recordButtonsBox]}>{aGroup}</View>
+                <View style={[styles.recordButtonsBox, bGroup && styles.groupInvisible]}>{bGroup}</View>
+                {this.props.expand ? aRows : null}
             </View>
-        </View>);
+        );
     }
     public buildTextRows() {
         let that = this;
@@ -142,76 +152,110 @@ export default class TextGroup extends Component<Props, State> {
                     break;
             }
         });
-        if (this.props.expand) {
-            if (Platform.OS === "android")
-                return (
-                    <View style={styles.tableContaint}>
-                        <RowAndroid editable={false} name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={Utils.formatC4CDateToDate(this.props.data.AppointmentDate, "YYYY/MM/DD") || ""} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="ArrivalTime" label="下次到店时间*" contextType="text" visible={this.state.bInvite} displayValue={Utils.formatC4CDateToDate(this.props.data.ArrivalTime, "YYYY/MM/DD HH:mm:ss") || ""} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="QuoteAmount_content" label="下订金额*" contextType="text" visible={this.state.bOrderPlaced} displayValue={this.props.data.QuoteAmount_content} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="VehicleModel" label="试驾车型*" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.VehicleModel} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IsCustomerOwn" label="是否客户本人试驾" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IsDLScanned" label="驾照扫描" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IsIDCScanned" label="身份证扫描*" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="OtherVehicleModel" label="试驾超过一辆车型*" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.OtherVehicleModel} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IsRecepitScanned" label="发票扫描*" contextType="text" visible={this.state.bKnockdown} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="Reason1contentText" label="战败类别*" contextType="text" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.props.data.Reason1contentText} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="Reason2contentText" label="战败原因*" contextType="text" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.props.data.Reason2Text} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="CampaignName" label="活动" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.CampaignName} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="ActivityTime" label="本次跟进时间*" contextType="text" displayValue={Utils.formatC4CDateToDate(this.props.data.ActivityTime, "YYYY/MM/DD HH:mm:ss")} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IntentionLevelText" label="意向等级*" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.IntentionLevelText} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="IntentModel" label="意向车型*" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.IntentModel} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="NextActivityTime" label="下次跟进时间*" contextType="text" visible={!this.state.bReturnVisit} displayValue={Utils.formatC4CDateToDate(this.props.data.NextActivityTime, "YYYY/MM/DD HH:mm:ss") || ""} navigator={this.props.navigator} />
-                        <RowAndroid editable={false} name="CustomerResponse" label="客户反馈" contextType="textarea" displayValue={this.props.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
-                    </View>
-                );
-            else
-                return (
-                    <View style={styles.tableContaint}>
-                        <RowIos editable={false} name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={Utils.formatC4CDateToDate(this.props.data.AppointmentDate, "YYYY/MM/DD") || ""} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="ArrivalTime" label="下次到店时间*" contextType="text" visible={this.state.bInvite} displayValue={Utils.formatC4CDateToDate(this.props.data.ArrivalTime, "YYYY/MM/DD HH:mm:ss") || ""} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="QuoteAmount_content" label="下订金额*" contextType="text" visible={this.state.bOrderPlaced} displayValue={this.props.data.QuoteAmount_content} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="VehicleModel" label="试驾车型*" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.VehicleModel} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IsCustomerOwn" label="是否客户本人试驾" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IsDLScanned" label="驾照扫描" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IsIDCScanned" label="身份证扫描*" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowIos editable={false} name="OtherVehicleModel" label="试驾超过一辆车型*" contextType="text" visible={this.state.bTestDrive} displayValue={this.props.data.OtherVehicleModel} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IsRecepitScanned" label="发票扫描*" contextType="text" visible={this.state.bKnockdown} displayValue="功能开发中..." navigator={this.props.navigator} />
-                        <RowIos editable={false} name="Reason1contentText" label="战败类别*" contextType="text" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.props.data.Reason1contentText} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="Reason2contentText" label="战败原因*" contextType="text" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.props.data.Reason2Text} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="CampaignName" label="活动" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.CampaignName} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="ActivityTime" label="本次跟进时间*" contextType="text" displayValue={Utils.formatC4CDateToDate(this.props.data.ActivityTime, "YYYY/MM/DD HH:mm:ss")} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IntentionLevelText" label="意向等级*" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.IntentionLevelText} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="IntentModel" label="意向车型*" contextType="text" visible={!this.state.bReturnVisit} displayValue={this.props.data.IntentModel} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="NextActivityTime" label="下次跟进时间*" contextType="text" visible={!this.state.bReturnVisit} displayValue={Utils.formatC4CDateToDate(this.props.data.NextActivityTime, "YYYY/MM/DD HH:mm:ss") || ""} navigator={this.props.navigator} />
-                        <RowIos editable={false} name="CustomerResponse" label="客户反馈" contextType="textarea" displayValue={this.props.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
-                    </View>
-                );
+        const info: any = {
+            AppointmentDate: Utils.formatC4CDateToDate(this.props.data.AppointmentDate, "YYYY/MM/DD HH:mm") || "无",
+            ArrivalTime: Utils.formatC4CDateToDate(this.props.data.ArrivalTime, "YYYY/MM/DD HH:mm") || "无",
+            QuoteAmount_content: _.round(this.props.data.QuoteAmount_content) + "万" || "无",
+            VehicleModel: this.props.data.VehicleModel || "无",
+            IsCustomerOwn: this.props.data.IsCustomerOwn ? "是" : "否",
+            OtherVehicleModel: this.props.data.OtherVehicleModel ? "是" : "否",
+            Reason1contentText: this.props.data.Reason1contentText || "无",
+            Reason2contentText: this.props.data.Reason2contentText || "无",
+            CampaignName: this.props.data.CampaignName || "无",
+            ActivityTime: Utils.formatC4CDateToDate(this.props.data.ActivityTime, "YYYY/MM/DD HH:mm") || "无",
+            IntentionLevelText: this.props.data.IntentionLevelText || "无",
+            IntentModel: Utils.formatStringWithEllipsis(this.props.data.IntentModel, 8) || "无",
+            NextActivityTime: Utils.formatC4CDateToDate(this.props.data.NextActivityTime, "YYYY/MM/DD HH:mm") || "无",
+            CustomerResponse: this.props.data.CustomerResponse || "无",
+        };
+        if (Platform.OS === "android") {
+            return (
+                    <View style={styles.groupRowsBox}>
+                        <RowAndroid name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={info.AppointmentDate} />
+                        <RowAndroid name="ArrivalTime" label="下次到店时间*" visible={this.state.bInvite} displayValue={info.ArrivalTime} />
+                        <RowAndroid name="QuoteAmount_content" label="下订金额*" visible={this.state.bOrderPlaced} displayValue={info.QuoteAmount_content} />
+                        <RowAndroid name="VehicleModel" label="试驾车型*" visible={this.state.bTestDrive} displayValue={info.VehicleModel} />
+                        <RowAndroid name="IsCustomerOwn" label="是否客户本人试驾" visible={this.state.bTestDrive} displayValue={info.IsCustomerOwn} />
+                        <RowAndroid name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue="功能开发中..." />
+                        <RowAndroid name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue="功能开发中..." />
+                        <RowAndroid name="OtherVehicleModel" label="试驾超过一辆车型*" visible={this.state.bTestDrive} displayValue={info.OtherVehicleModel} />
+                        <RowAndroid name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue="功能开发中..." />
+                        <RowAndroid name="Reason1contentText" label="战败类别*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason1contentText} />
+                        <RowAndroid name="Reason2contentText" label="战败原因*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason2contentText} />
+                        <RowAndroid name="CampaignName" label="活动" visible={!this.state.bReturnVisit} displayValue={info.CampaignName} />
+                        <RowAndroid name="ActivityTime" label="本次跟进时间*" displayValue={info.ActivityTime} />
+                        <RowAndroid name="IntentionLevelText" label="意向等级*" visible={!this.state.bReturnVisit} displayValue={info.IntentionLevelText} />
+                        <RowAndroid name="IntentModel" label="意向车型*" visible={!this.state.bReturnVisit} displayValue={info.IntentModel} />
+                        <RowAndroid name="NextActivityTime" label="下次跟进时间*" visible={!this.state.bReturnVisit} displayValue={info.NextActivityTime} />
+                        <RowAndroid name="CustomerResponse" label="客户反馈" displayValue={info.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} />
+                </View>
+            );
         } else {
-            if (Platform.OS === "android")
-                return (
-                    <View style={styles.tableContaint}>
-                        <RowAndroid label="客户反馈" editable={false} contextType="textarea" displayValue={"" + this.props.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
-                    </View>
-                );
-            else
-                return (
-                    <View style={styles.tableContaint}>
-                        <RowIos label="客户反馈" editable={false} contextType="textarea" displayValue={"" + this.props.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
-                    </View>
-                );
+            return (
+                <View style={styles.groupRowsBox}>
+                    <RowIos name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={info.AppointmentDate} />
+                    <RowIos name="ArrivalTime" label="下次到店时间*" visible={this.state.bInvite} displayValue={info.ArrivalTime} />
+                    <RowIos name="QuoteAmount_content" label="下订金额*" visible={this.state.bOrderPlaced} displayValue={info.QuoteAmount_content} />
+                    <RowIos name="VehicleModel" label="试驾车型*" visible={this.state.bTestDrive} displayValue={info.VehicleModel} />
+                    <RowIos name="IsCustomerOwn" label="是否客户本人试驾" visible={this.state.bTestDrive} displayValue={info.IsCustomerOwn} />
+                    <RowIos name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue="功能开发中..." />
+                    <RowIos name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue="功能开发中..." />
+                    <RowIos name="OtherVehicleModel" label="试驾超过一辆车型*" visible={this.state.bTestDrive} displayValue={info.OtherVehicleModel} />
+                    <RowIos name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue="功能开发中..." />
+                    <RowIos name="Reason1contentText" label="战败类别*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason1contentText} />
+                    <RowIos name="Reason2contentText" label="战败原因*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason2contentText} />
+                    <RowIos name="CampaignName" label="活动" visible={!this.state.bReturnVisit} displayValue={info.CampaignName} />
+                    <RowIos name="ActivityTime" label="本次跟进时间*" displayValue={info.ActivityTime} />
+                    <RowIos name="IntentionLevelText" label="意向等级*" visible={!this.state.bReturnVisit} displayValue={info.IntentionLevelText} />
+                    <RowIos name="IntentModel" label="意向车型*" visible={!this.state.bReturnVisit} displayValue={info.IntentModel} />
+                    <RowIos name="NextActivityTime" label="下次跟进时间*" visible={!this.state.bReturnVisit} displayValue={info.NextActivityTime} />
+                    <RowIos name="CustomerResponse" label="客户反馈" displayValue={info.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} />
+                </View>
+            );
         }
     }
 }
 const styles = StyleSheet.create({
     groupContainer: {
         flex: 1,
-        alignItems: "baseline",
-        borderRadius: 10,
+        alignItems: "baseline"
     },
     tableContaint: {
-        width: width * 0.8
+        width: width - 55,
     },
+    groupRowsBox: {
+        borderBottomWidth: 1,
+        borderBottomColor: Constants.COLOR.DIVIDER,
+        paddingBottom: 10
+    },
+    recordButtonsBox: {
+        flex: 1,
+        paddingHorizontal: 15,
+        paddingTop: 10,
+        paddingBottom: 15,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: Constants.COLOR.DIVIDER
+    },
+    defaultBtn: {
+		width: 80,
+		height: 28,
+		borderRadius: 30,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: Constants.COLOR.DARKGREY
+	},
+	enabledBtn: {
+	},
+	disabledBtn: {
+		backgroundColor: "#d0d2d6"
+    },
+    buttonText: {
+		fontSize: 15,
+		color: Constants.COLOR.WHITE
+	},
     groupDetail: {
         justifyContent: "space-around",
         alignItems: "flex-start",

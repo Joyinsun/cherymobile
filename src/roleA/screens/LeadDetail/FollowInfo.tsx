@@ -124,66 +124,74 @@ class FollowInfo extends Component<Props, State> {
 		}
 	}
 	public render() {
-		return (<ScrollView style={styles.tabView}>
-			<Timeline style={styles.list}
-				data={(this.state && this.state.dataList && this.state.dataList.length > 0) ? this.state.dataList : []}
-				ref={timeLine => {
-					this.timeLine = timeLine;
-				}}
-				roleName="consultant"
-				onPressCall={this._pressCall.bind(this)}
-				onPressLocal={this._pressLocal.bind(this)}
-				onPressSMS={this._pressSMS.bind(this)}
-				onPressWeChat={this._pressWeChat.bind(this)}
-				bCallEnable={this.state.bCallEnable}
-				bSMSEnable={this.state.bSMSEnable}
-				bLocalEnable={this.state.bLocalEnable}
-				bWechatEnable={this.state.bWechatEnable}
-				bKnockdown={this.state.bKnockdown}
-				bOrderPlaced={this.state.bOrderPlaced} />
-			<ShowDialog
-				ref={showDialog => {
-					this.showDialog = showDialog;
-				}}
-				width={Constants.SCREEN_WIDTH}
-				height={Constants.SCREEN_HEIGHT * 0.8}
-				visible={this.state.visible}>
-				<View style={{ flex: 1, height: Constants.SCREEN_HEIGHT * 0.8 - 40 }}>
-					<ScrollView contentContainerStyle={{ height: Constants.SCREEN_HEIGHT * 0.8 - 100 }}>
-						<TabSelectTable
-							ref={tabSelectTable => {
-								this.tabSelectTable = tabSelectTable;
-							}}
-							type={this.state.sType}
-							bKnockdown={this.state.bKnockdown}
-							bOrderPlaced={this.state.bOrderPlaced}
-							navigator={this.props.navigator}
-						/>
-					</ScrollView>
-					<View style={styles.buttonVeiwPositon} >
-						<Button title="取消" color={Platform.OS === "ios" ? "grey" : "black"} onPress={this.onPressCancel.bind(this)} />
-						<Button title="确定" color={Platform.OS === "ios" ? "white" : "black"} onPress={this.onPressSaveFollow.bind(this)} />
-					</View>
-
-				</View>
-			</ShowDialog>
-			<Modal
-				visible={this.state.refresh}
-				transparent={true}
-				animationType="none"
-				onRequestClose={() => {
-					this._setModalVisible(false);
-				}}
+		return (
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={styles.tabView}
 			>
-				<ActivityIndicator
-					animating={this.state.refresh}
-					style={{
-						height: 80
+				<Timeline style={styles.list}
+					data={(this.state && this.state.dataList && this.state.dataList.length > 0) ? this.state.dataList : []}
+					ref={timeLine => {
+						this.timeLine = timeLine;
 					}}
-					size="large"
-				/>
-			</Modal>
-		</ScrollView>);
+					roleName="consultant"
+					onPressCall={this._pressCall.bind(this)}
+					onPressLocal={this._pressLocal.bind(this)}
+					onPressSMS={this._pressSMS.bind(this)}
+					onPressWeChat={this._pressWeChat.bind(this)}
+					bCallEnable={this.state.bCallEnable}
+					bSMSEnable={this.state.bSMSEnable}
+					bLocalEnable={this.state.bLocalEnable}
+					bWechatEnable={this.state.bWechatEnable}
+					bKnockdown={this.state.bKnockdown}
+					bOrderPlaced={this.state.bOrderPlaced} />
+				<ShowDialog
+					ref={showDialog => {
+						this.showDialog = showDialog;
+					}}
+					width={Constants.SCREEN_WIDTH}
+					height={Constants.SCREEN_HEIGHT * 0.8}
+					visible={this.state.visible}>
+					<View style={{ flex: 1, height: Constants.SCREEN_HEIGHT * 0.8 - 40 }}>
+						<ScrollView
+							showsVerticalScrollIndicator={false}
+							contentContainerStyle={{ height: Constants.SCREEN_HEIGHT * 0.8 - 100 }}
+						>
+							<TabSelectTable
+								ref={tabSelectTable => {
+									this.tabSelectTable = tabSelectTable;
+								}}
+								type={this.state.sType}
+								bKnockdown={this.state.bKnockdown}
+								bOrderPlaced={this.state.bOrderPlaced}
+								navigator={this.props.navigator}
+							/>
+						</ScrollView>
+						<View style={styles.buttonVeiwPositon} >
+							<Button title="取消" color={Platform.OS === "ios" ? "grey" : "black"} onPress={this.onPressCancel.bind(this)} />
+							<Button title="确定" color={Platform.OS === "ios" ? "white" : "black"} onPress={this.onPressSaveFollow.bind(this)} />
+						</View>
+
+					</View>
+				</ShowDialog>
+				<Modal
+					visible={this.state.refresh}
+					transparent={true}
+					animationType="none"
+					onRequestClose={() => {
+						this._setModalVisible(false);
+					}}
+				>
+					<ActivityIndicator
+						animating={this.state.refresh}
+						style={{
+							height: 80
+						}}
+						size="large"
+					/>
+				</Modal>
+			</ScrollView>
+		);
 	}
 	private _setModalVisible(bValue) {
 		this.setState({ refresh: false });
