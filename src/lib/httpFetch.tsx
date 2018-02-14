@@ -88,15 +88,28 @@ function requestFromRemote(url: string, navigator: any, options: any, isC4CUrl: 
                 }
             });
         } else {
+            let errM = "";
+            if (response.status === 400)
+                errM = "请检查请求内容格式";
+            else if (response.status === 500)
+                errM = "无法访问服务器";
+            else
+                errM = "网络连接超时";
             return new Promise(function(resolve, reject) {
-                resolve(response);
+                reject(errM);
             });
         }
     }).catch((error) => {
         return new Promise(function(resolve, reject) {
-            reject("网络连接超时");
-            if (useGlobalErrorHandler)
-                errorHandler("网络连接超时", navigator);
+            if (error) {
+                reject(error);
+                if (useGlobalErrorHandler)
+                    errorHandler(error, navigator);
+            } else {
+                reject("网络连接超时");
+                if (useGlobalErrorHandler)
+                    errorHandler("网络连接超时", navigator);
+            }
         });
     });
 }

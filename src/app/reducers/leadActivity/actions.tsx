@@ -47,8 +47,11 @@ export function createLeadActivity(oData: any, navigator: any, refresh: boolean 
                     dispatch(createLeadActivitySuccess({ refresh: false }));
                     return;
                 }
+            }).catch((error) => {
+                dispatch(createLeadActivitySuccess({ refresh: false }));
             });
         } catch (error) {
+            dispatch(createLeadActivitySuccess({ refresh: false }));
             console.log(error);
         }
     };
