@@ -15,6 +15,7 @@ import ContactType from "../../../app/interfaces/contactType";
 import styles from "../../styles/FollowStyle";
 import * as GlobalVariable from "../../../lib/global";
 import Common from "../../../lib/Common";
+const moment = require("moment");
 
 interface Props {
 	tabLabel?: string;
@@ -304,11 +305,13 @@ class FollowInfo extends Component<Props, State> {
 			return;
 		}
 		let data = this.tabSelectTable.state.data;
+		//alert(JSON.stringify(data));
 		let oSaveData = new Object();
 		for (var key in data) {
-			if (data.hasOwnProperty(key) && (data[key] != "")) {
+			if (data.hasOwnProperty(key) && (data[key] != "" && data[key] !== "请选择")) {
 				if (key === "AppointmentDate" || key === "ArrivalTime" || key === "NextActivityTime" || key === "ActivityTime" || key === "APPActivityDateTime2") {
-					oSaveData[key] = "/Date(" + new Date(data[key]).getTime() + ")/";
+					let d = moment(data[key]).valueOf();
+					oSaveData[key] = "/Date(" + d + ")/";
 				} else {
 					if (key === "IsCustomerOwn" && this.tabSelectTable.state.aSelectGroups.includes(Constants.CODE_ACTIVITY_PURPOSE_TESTDRIVE)) {
 						oSaveData[key] = data[key];
@@ -318,6 +321,7 @@ class FollowInfo extends Component<Props, State> {
 				}
 			}
 		}
+		//alert(JSON.stringify(oSaveData));
 		oSaveData["Purpose"] = this.tabSelectTable.state.aSelectGroups.toString();
 		oSaveData["SubjectName"] = this.tabSelectTable.state.aSelectGroups.toString();
 		oSaveData["CustomerInternalID"] = this.props.lead.CustomerID;
