@@ -32,7 +32,7 @@ export function fetchRoleAWeekLead(beginDate: number, endDate: number, navigator
 
         let data = [
             {
-                "isReserve": false,
+                "isReserve": true,
                 "timeStatus": [
                     {
                         ID: "aaa",
@@ -116,7 +116,7 @@ export function fetchRoleAWeekLead(beginDate: number, endDate: number, navigator
                 ]
             },
             {
-                "isReserve": false,
+                "isReserve": true,
                 "timeStatus": [
                     {
                         ID: "aaa",
@@ -158,7 +158,7 @@ export function fetchRoleAWeekLead(beginDate: number, endDate: number, navigator
                 ]
             },
             {
-                "isReserve": false,
+                "isReserve": true,
                 "timeStatus": [
                     {
                         ID: "fff",

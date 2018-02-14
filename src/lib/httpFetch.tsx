@@ -78,7 +78,7 @@ function requestFromRemote(url: string, navigator: any, options: any, isC4CUrl: 
                     if (token) {
                         GlobalVariable.userdetail.c4cCSRFToken = token;
                     }
-                    requestFromRemote(url, options, isC4CUrl, isGetMethod, useGlobalErrorHandler);
+                    requestFromRemote(url, navigator, options, isC4CUrl, isGetMethod, useGlobalErrorHandler);
                 } else {
                     return new Promise(function(resolve, reject) {
                         reject("获取token失败.");
