@@ -21,7 +21,8 @@ interface Props {
 	refresh: boolean;
     navigator:  any;
     dispatch: Dispatch<any>;
-    fetchRoleAWeekLead(beginDate: number, endDate: number, navigator: any, refresh: boolean): void;
+	type: string;
+    fetchRoleAWeekLead(beginDate: number, endDate: number, navigator: any, type: string, refresh: boolean): void;
 }
 
 interface State {
@@ -39,7 +40,7 @@ class WithCalendar extends Component<Props, State> {
     };
 
     public componentDidMount(): void {
-        this.props.fetchRoleAWeekLead(util.getWeekArr(new Date(), this.state.index)[0].getDate(), util.getWeekArr(new Date(), this.state.index)[6].getDate(), this.props.navigator, false);
+        this.props.fetchRoleAWeekLead(util.getWeekArr(new Date(), this.state.index)[0], util.getWeekArr(new Date(), this.state.index)[6], this.props.navigator, this.props.type, false);
     }
 
     public render(): JSX.Element {
@@ -85,7 +86,7 @@ class WithCalendar extends Component<Props, State> {
 		);
 	}
 	private scroll(): void {
-		this.props.fetchRoleAWeekLead(util.getWeekArr(this.state.currentDate, this.state.index)[0], util.getWeekArr(this.state.currentDate, this.state.index)[6], this.props.navigator, false);
+		this.props.fetchRoleAWeekLead(util.getWeekArr(this.state.currentDate, this.state.index)[0], util.getWeekArr(this.state.currentDate, this.state.index)[6], this.props.navigator, this.props.type, false);
 	}
 
 	private _callback(data, curDate, idx) {
@@ -120,8 +121,8 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		fetchRoleAWeekLead: (beginDate: number, endDate: number, navigator: any, refresh: boolean) => {
-			dispatch(fetchRoleAWeekLead(beginDate, endDate, navigator, refresh));
+		fetchRoleAWeekLead: (beginDate: number, endDate: number, navigator: any, type: string, refresh: boolean) => {
+			dispatch(fetchRoleAWeekLead(beginDate, endDate, navigator, type, refresh));
 		}, dispatch
 	};
 }

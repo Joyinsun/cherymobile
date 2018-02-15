@@ -1,9 +1,13 @@
 import * as types from "./actionTypes";
 import { Dispatch } from "redux";
-import * as Constant from "../../../lib/Constants";
+import * as Constants from "../../../lib/Constants";
+import * as GlobalVariable from "../../../lib/global";
+import Utils from "../../../lib/util";
 import httpFetch from "../../../lib/httpFetch";
 import ILead from "../../../app/interfaces/lead";
 import Common from "../../../lib/Common";
+import _ from "lodash";
+const moment = require("moment");
 
 function fetchedRoleAWeekLead(data) {
     return {
@@ -26,233 +30,51 @@ function fetchRoleAWeekLeadError(err) {
     };
 }
 
-export function fetchRoleAWeekLead(beginDate: number, endDate: number, navigator: any, refresh: boolean = false) {
+export function fetchRoleAWeekLead(beginDate: number, endDate: number, navigator: any, type: string, refresh: boolean = false) {
     return (dispatch) => {
         dispatch(fetchingRoleAWeekLead({ refresh }));
-
-        let data = [
-            {
-                "isReserve": true,
-                "timeStatus": [
-                    {
-                        ID: "aaa",
-
-                        FirstTouch: "易车网",
-
-                        IndividualCustomerFamilyName: "王皓",
-
-                        Mobile: "13567864567",
-
-                        IntentionCarName: "瑞虎X3",
-
-                        IntentionCarNameLevel2: "瑞虎X3",
-
-                        IntentionColor: "白色",
-
-                        IntentionOrderTime: "2017-12-31",
-
-                        Budget: 3.5,
-
-                        BuyMethodcontent: "现金",
-
-                        ECommerceOrderID: 12345,
-
-                        UserStatusCode: "新购",
-
-                        UserStatusCodeText: "Open",
-
-                        HasChecked: false,
-
-                        LeadLevel: "H",
-
-                        LeadLevelText: "H",
-
-                        CreationDateTime: "2017-12-20",
-
-                        ArrageDateTime: "2017-12-20"
-                    },
-                    {
-                        ID: "asd",
-
-                        FirstTouch: "易车网",
-
-                        IndividualCustomerFamilyName: "王二",
-
-                        Mobile: "13567864567",
-
-                        IntentionCarName: "瑞虎X3",
-
-                        IntentionCarNameLevel2: "瑞虎X3",
-
-                        IntentionColor: "白色",
-
-                        IntentionOrderTime: "2017-12-31",
-
-                        Budget: 3.5,
-
-                        BuyMethodcontent: "现金",
-
-                        ECommerceOrderID: 12345,
-
-                        UserStatusCode: "新购",
-
-                        UserStatusCodeText: "Open",
-
-                        HasChecked: false,
-
-                        LeadLevel: "H",
-
-                        LeadLevelText: "H",
-
-                        CreationDateTime: "2017-12-20",
-
-                        ArrageDateTime: "2017-12-20"
-                    }
-                ]
-            },
-            {
-                "isReserve": false,
-                "timeStatus": [
-                ]
-            },
-            {
-                "isReserve": true,
-                "timeStatus": [
-                    {
-                        ID: "aaa",
-
-                        FirstTouch: "易车网",
-
-                        IndividualCustomerFamilyName: "王皓",
-
-                        Mobile: "13567864567",
-
-                        IntentionCarName: "瑞虎X3",
-
-                        IntentionCarNameLevel2: "瑞虎X3",
-
-                        IntentionColor: "白色",
-
-                        IntentionOrderTime: "2017-12-31",
-
-                        Budget: 3.5,
-
-                        BuyMethodcontent: "现金",
-
-                        ECommerceOrderID: 12345,
-
-                        UserStatusCode: "新购",
-
-                        UserStatusCodeText: "Open",
-
-                        HasChecked: false,
-
-                        LeadLevel: "H",
-
-                        LeadLevelText: "H",
-
-                        CreationDateTime: "2017-12-20",
-
-                        ArrageDateTime: "2017-12-20"
-                    }
-                ]
-            },
-            {
-                "isReserve": true,
-                "timeStatus": [
-                    {
-                        ID: "fff",
-
-                        FirstTouch: "易车网",
-
-                        IndividualCustomerFamilyName: "哈哈",
-
-                        Mobile: "13567864567",
-
-                        IntentionCarName: "瑞虎X3",
-
-                        IntentionCarNameLevel2: "瑞虎X3",
-
-                        IntentionColor: "白色",
-
-                        IntentionOrderTime: "2017-12-31",
-
-                        Budget: 3.5,
-
-                        BuyMethodcontent: "现金",
-
-                        ECommerceOrderID: 12345,
-
-                        UserStatusCode: "新购",
-
-                        UserStatusCodeText: "Open",
-
-                        HasChecked: false,
-
-                        LeadLevel: "H",
-
-                        LeadLevelText: "H",
-
-                        CreationDateTime: "2017-12-20",
-
-                        ArrageDateTime: "2017-12-20"
-                    },
-                    {
-                        ID: "eee",
-
-                        FirstTouch: "易车网",
-
-                        IndividualCustomerFamilyName: "刘三",
-
-                        Mobile: "13567864567",
-
-                        IntentionCarName: "瑞虎X3",
-
-                        IntentionCarNameLevel2: "瑞虎X3",
-
-                        IntentionColor: "白色",
-
-                        IntentionOrderTime: "2017-12-31",
-
-                        Budget: 3.5,
-
-                        BuyMethodcontent: "现金",
-
-                        ECommerceOrderID: 12345,
-
-                        UserStatusCode: "新购",
-
-                        UserStatusCodeText: "Open",
-
-                        HasChecked: false,
-
-                        LeadLevel: "H",
-
-                        LeadLevelText: "H",
-
-                        CreationDateTime: "2017-12-20",
-
-                        ArrageDateTime: "2017-12-20"
-                    }
-                ]
-            },
-            {
-                "isReserve": false,
-                "timeStatus": [
-                ]
-            },
-            {
-                "isReserve": false,
-                "timeStatus": [
-                ]
-            },
-            {
-                "isReserve": false,
-                "timeStatus": [
-                ]
+        var that = this;
+        //alert(beginDate);
+        let beginD = moment(beginDate).format("YYYY-MM-DD");
+        let endD = moment(endDate).format("YYYY-MM-DD");
+        //var today = Utils.getToday();
+        var timeFilter = "and (APPActivityDateTime ge datetimeoffset'" + beginD + "T00:00:01Z' and APPActivityDateTime le datetimeoffset'" + endD + "T23:59:59Z') ";
+        var filter = "&$filter=DealerID eq '" + GlobalVariable.userdetail.dealerId + "' and SalesID eq'" + GlobalVariable.userdetail.sciUserId + "'" + timeFilter;
+        httpFetch(Constants.C4C_ODATA_V1 + "/c4codata/LeanLeadCollection?$format=json" + filter, navigator, {
+            method: "GET"
+        }).then((response: any) => {
+            if (response.ok && response.status === 200) {
+                return response.json();
             }
-        ];
-        Common.showNotification("API未集成，此处为演示数据", navigator);
-        return setTimeout(() => dispatch(fetchedRoleAWeekLead({data: data, refresh})), 500);
+        }).then((res) => {
+            let data = [{
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }, {
+                "isReserve": false,
+                "timeStatus": []
+            }
+            ];
+            let newData = Utils.splitTaskPerDay(data, res.d.results, beginDate);
+            dispatch(fetchedRoleAWeekLead({ data: newData, refresh: false }));
+        }).catch((error) => {
+            //Common.showNotification(error.message);
+            dispatch(fetchRoleAWeekLeadError({ refresh: false }));
+        });
     };
 }

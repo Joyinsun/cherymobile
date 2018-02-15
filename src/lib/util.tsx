@@ -4,6 +4,7 @@ import { PixelRatio } from "react-native";
 import * as GlobalVariable from "./global";
 import doXMLHttpRequest from "./doXMLHttpRequest";
 import * as Constants from "./Constants";
+import ILead from "../app/interfaces/lead";
 
 export default {
   dateCover(num) {
@@ -390,5 +391,29 @@ export default {
   formatStringWithEllipsis(str: string, len: number): string {
     const resStr: string = str.length > len ? str.substr(0, len) + "..." : str;
     return resStr;
+  },
+  splitTaskPerDay(list: any, responseData: any, beginDate: any): any {
+    var dayFirst = moment(beginDate).format("YYYY-MM-DD");
+    var daySecond = moment(beginDate).day(1).format("YYYY-MM-DD");
+    var dayThird = moment(beginDate).day(2).format("YYYY-MM-DD");
+    var dayFourth = moment(beginDate).day(3).format("YYYY-MM-DD");
+    var dayFifth = moment(beginDate).day(4).format("YYYY-MM-DD");
+    var daySixth = moment(beginDate).day(5).format("YYYY-MM-DD");
+    var daySeventh = moment(beginDate).day(6).format("YYYY-MM-DD");
+    _.forEach(responseData, (leadData, index) => {
+      let d = moment(leadData.APPActivityDateTime).format("YYYY-MM-DD");
+      let lead: ILead = leadData;
+      switch (d) {
+        case dayFirst: list[0].timeStatus.push(lead); list[0].isReserve = true; break;
+        case daySecond: list[1].timeStatus.push(lead); list[1].isReserve = true; break;
+        case dayThird: list[2].timeStatus.push(lead); list[2].isReserve = true; break;
+        case dayFourth: list[3].timeStatus.push(lead); list[3].isReserve = true; break;
+        case dayFifth: list[4].timeStatus.push(lead); list[4].isReserve = true; break;
+        case daySixth: list[5].timeStatus.push(lead); list[5].isReserve = true; break;
+        case daySeventh: list[6].timeStatus.push(lead); list[6].isReserve = true; break;
+        default: break;
+      }
+    });
+    return list;
   }
 };
