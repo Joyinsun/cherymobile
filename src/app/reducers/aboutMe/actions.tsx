@@ -25,11 +25,11 @@ export function fetchSelfMsg(userID: number, navigator: any) {
             }).then(function(res) {
                 dispatch(fetchedSelfMsg({ data: res }));
             }).catch((error) => {
-                dispatch(fetchedSelfMsg({ data: null })); // return an empty array when request failed
+                dispatch(fetchedSelfMsg({ data: {} })); // return an empty array when request failed
                 console.log(error);
             });
         } catch (error) {
-            dispatch(fetchedSelfMsg({ data: null })); // return an empty array when request failed
+            dispatch(fetchedSelfMsg({ data: {} })); // return an empty array when request failed
             console.log(error.message);
         }
     };

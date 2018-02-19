@@ -93,6 +93,8 @@ function requestFromRemote(url: string, navigator: any, options: any, isC4CUrl: 
                 errM = "请检查请求内容格式";
             else if (response.status === 500)
                 errM = "无法访问服务器";
+            else if (response.status === 404)
+                errM = "请求资源不存在";
             else
                 errM = "网络连接超时";
             return new Promise(function(resolve, reject) {

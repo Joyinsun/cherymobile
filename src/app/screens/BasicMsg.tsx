@@ -111,14 +111,16 @@ class BasicMsg extends Component<Props, State> {
 				})}
 			</View>
 		);
-
 	}
 	private translateSexToCN(genderStr: string): string {
 		let sex = "";
-		if (genderStr === "female")
+		if (genderStr === "female") {
 			sex = "女";
-		else
+		} else if (genderStr === "male") {
 			sex = "男";
+		} else {
+			sex = "";
+		}
 		return sex;
 	}
 }

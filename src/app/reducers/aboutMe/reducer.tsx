@@ -3,7 +3,7 @@
 import * as types from "./actionTypes";
 
 const initialState = {
-    data: null
+    data: {}
 };
 
 export default function aboutMe(state: any = initialState, action: any) {
@@ -16,7 +16,7 @@ export default function aboutMe(state: any = initialState, action: any) {
         case types.CLEAR_SELF_MSG:
             //const {data} = action.data;
             return Object.assign({}, state, {
-                data: null
+                data: {}
             });
         default:
             return state;
