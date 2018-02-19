@@ -25,10 +25,24 @@ export function fetchSelfMsg(userID: number, navigator: any) {
             }).then(function(res) {
                 dispatch(fetchedSelfMsg({ data: res }));
             }).catch((error) => {
+                dispatch(fetchedSelfMsg({ data: null })); // return an empty array when request failed
                 console.log(error);
             });
         } catch (error) {
+            dispatch(fetchedSelfMsg({ data: null })); // return an empty array when request failed
             console.log(error.message);
         }
+    };
+}
+
+function clearedSelfMsg() {
+    return {
+        type: types.CLEAR_SELF_MSG
+    };
+}
+
+export function clearSelfMsg() {
+    return (dispatch) => {
+        dispatch(clearedSelfMsg());
     };
 }

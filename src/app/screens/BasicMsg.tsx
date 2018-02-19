@@ -46,7 +46,7 @@ class BasicMsg extends Component<Props, State> {
 					<RowAndroid label="身份证号码" contextType="text" displayValue={basicDataList ? basicDataList.idCard : null} navigator={this.props.navigator} />
 					<RowAndroid label="入职日期" contextType="text" displayValue={basicDataList ? basicDataList.entryDate : null} navigator={this.props.navigator} />
 					<RowAndroid label="微信号" contextType="text" displayValue={basicDataList ? basicDataList.weChatId : null} navigator={this.props.navigator} />
-					{basicDataList ? (basicDataList.roles.length > 1 ?
+					{(basicDataList && basicDataList.roles) ? (basicDataList.roles.length > 1 ?
 						(< RowAndroid label="角色（多个）" contextType="text" navigator={this.props.navigator} />) :
 						(< RowAndroid label="角色（单个）" contextType="text" navigator={this.props.navigator} />)
 					) :
@@ -70,7 +70,7 @@ class BasicMsg extends Component<Props, State> {
 					<RowIos label="入职日期" contextType="text" displayValue={basicDataList ? basicDataList.entryDate : null} navigator={this.props.navigator} />
 					<RowIos label="微信号" contextType="text" displayValue={basicDataList ? basicDataList.weChatId : null} navigator={this.props.navigator} />
 					<RowIos label="角色" contextType="text" navigator={this.props.navigator} />
-					{basicDataList ? (basicDataList.roles.length > 1 ?
+					{(basicDataList && basicDataList.roles) ? (basicDataList.roles.length > 1 ?
 						(< RowIos label="角色（多个）" contextType="text" navigator={this.props.navigator} />) :
 						(< RowIos label="角色（单个）" contextType="text" navigator={this.props.navigator} />)
 					) :
