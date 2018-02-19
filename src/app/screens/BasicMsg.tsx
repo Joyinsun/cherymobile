@@ -2,12 +2,13 @@
 
 import * as React from "react";
 import { Component } from "react";
-import { Dimensions, Platform, ScrollView, View, Text } from "react-native";
+import { Dimensions, Platform, ScrollView, View, Text, FlatList } from "react-native";
 import { connect, Dispatch } from "react-redux";
 import { fetchSelfMsg } from "../reducers/aboutMe/actions";
 import * as GlobalVariable from "../../lib/global";
 import RowAndroid from "../../app/components/row/index.android";
 import RowIos from "../../app/components/row/index.ios";
+import _ from "lodash";
 
 import styles from "../styles/AboutMeStyle";
 interface Props {
@@ -84,31 +85,39 @@ class BasicMsg extends Component<Props, State> {
 			);
 	}
 	private showRoles(): JSX.Element {
-		let roleName = "";
+		let that = this;
+		let roleList = new Array();
+		_.forEach(GlobalVariable.userdetail.roles, function(item) {
+			let roleName = "";
+			switch (item) {
+				case "ROLE_SALE_CONSULTANT":
+					roleName = "销售顾问";
+					break;
+				case "ROLE_DIGITAL_MARKETING_MANAGER":
+					roleName = "数字化营销经理";
+					break;
+				case "ROLE_TEST_DRIVER":
+					roleName = "试驾专员";
+					break;
+				case "ROLE_STORE_MANAGER":
+					roleName = "店总";
+					break;
+				case "ROLE_SHOWROOM_MANAGER":
+					roleName = "展厅经理";
+					break;
+			}
+			if (item === that.props.currentRole)
+				roleName += "（当前）";
+			roleList.push({ roleName });
+		});
 		return (
 			<View style={styles.container}>
-				{GlobalVariable.userdetail.roles.map((item, index) => {
-					switch (item) {
-						case "ROLE_SALE_CONSULTANT":
-							roleName = "销售顾问";
-							break;
-						case "ROLE_DIGITAL_MARKETING_MANAGER":
-							roleName = "数字化营销经理";
-							break;
-						case "ROLE_TEST_DRIVER":
-							roleName = "试驾专员";
-							break;
-						case "ROLE_STORE_MANAGER":
-							roleName = "店总";
-							break;
-						case "ROLE_SHOWROOM_MANAGER":
-							roleName = "展厅经理";
-							break;
-					}
-					if (item === this.props.currentRole)
-						roleName += "（当前）";
-					return (<Text style={styles.textStyle}>{roleName}</Text>);
-				})}
+				<FlatList
+					style={{ backgroundColor: "white", height: "150%" }}
+					data={roleList}
+					keyExtractor={(item, index) => index}
+					renderItem={({ item }) => <Text style={styles.textStyle}>{item.roleName}</Text>}>
+				</FlatList>
 			</View>
 		);
 	}
