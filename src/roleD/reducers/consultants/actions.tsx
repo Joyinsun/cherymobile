@@ -30,9 +30,9 @@ function fetchedRoleDConsultantListError(err) {
 export function fetchRoleDConsultantList(navigator: any, page: number, refresh: boolean = false) {
 	return (dispatch) => {
 		dispatch(fetchingRoleBConsultantList({ refresh }));
-		const managerId = GlobalVar.userdetail.managerId ? GlobalVar.userdetail.managerId : "41";
-		let url = Constants.SCP_HOST_URL + "/api/v1/" + managerId + "/salesConsultants";
+		//const managerId = GlobalVar.userdetail.managerId ? GlobalVar.userdetail.managerId : "41";
 		//let url = Constants.SCP_HOST_URL + "/api/v1/" + managerID + "/salesConsultants";
+		let url = Constants.SCP_HOST_URL + "/api/v1/salesConsultants";
 		try {
 			httpFetch (url, navigator, {
 				method: "GET",
