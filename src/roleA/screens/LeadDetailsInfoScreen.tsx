@@ -13,6 +13,7 @@ import * as GlobalVariable from "../../lib//global";
 import _ from "lodash";
 import * as Constants from "../../lib/Constants";
 import util from "../../lib/util";
+import Common from "../../lib/Common";
 
 const moment = require("moment");
 
@@ -103,7 +104,7 @@ class LeadDetailsInfoScreen extends Component<Props, State> {
       return;
     }
     if (newProps.leadCreationStatus.responseStatus === 201) {
-      this.showNotification(Constants.CN_LEAD_CREATED_SUCC);
+      Common.showNotification(Constants.CN_LEAD_CREATED_SUCC, this.props.navigator);
       this.props.navigator.push({
         title: "",
         screen: "consultant.ConsultantTabsScreen",
@@ -116,7 +117,7 @@ class LeadDetailsInfoScreen extends Component<Props, State> {
       });
       this.props.dispatch(leadActions.resetResponseStatus());
     } else if (newProps.leadCreationStatus.responseStatus === 400) {
-      this.showNotification(Constants.CN_LEAD_CREATED_FAILED);
+      Common.showNotification(Constants.CN_LEAD_CREATED_FAILED, this.props.navigator);
     } else {
       return;
     }
@@ -202,11 +203,11 @@ class LeadDetailsInfoScreen extends Component<Props, State> {
   private validationCheck(): boolean {
     let validation = false;
     if (!this.state.IndividualCustomerFamilyName) {
-      this.showNotification("客户姓名是必填项！");
+      Common.showNotification("客户姓名是必填项！", this.props.navigator);
     } else if (!this.state.targetCarModel || this.state.targetCarModel === "请选择") {
-      this.showNotification("意向车型是必填项！");
+      Common.showNotification("意向车型是必填项！", this.props.navigator);
     } else if (!this.state.level || this.state.level === "请选择") {
-      this.showNotification("意向级别是必填项！");
+      Common.showNotification("意向级别是必填项！", this.props.navigator);
     } else {
       validation = true;
     }
@@ -217,20 +218,6 @@ class LeadDetailsInfoScreen extends Component<Props, State> {
     let leadCreationContent = this.state.leadCreationData;
     leadCreationContent.Name = leadCreationContent.IndividualCustomerFamilyName + " " + this.state.targetCarModel;
     return leadCreationContent;
-  }
-
-  private showNotification(msg: string): void {
-    const notificationContent = (
-      <Text style={{ fontSize: 16, textAlign: "center", color: "#252525" }}>
-        {msg}
-      </Text>);
-    this.props.navigator.showInAppNotification({
-      screen: "app.NotificationScreen",
-      passProps: {
-        content: notificationContent
-      },
-      autoDismissTimerSec: 2
-    });
   }
 
   private onValueChange(displayInfo: any): void {
