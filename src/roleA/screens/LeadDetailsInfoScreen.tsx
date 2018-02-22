@@ -232,7 +232,7 @@ class LeadDetailsInfoScreen extends Component<Props, State> {
           level
         });
         leadCreationData["LeadLevel"] = displayInfo.level.key;
-        leadCreationData["IntentionOrderTime"] = (purchaseDate === "无明确时间") ? "" : "/Date(" + new Date(moment(purchaseDate)).getTime() + ")/";
+        leadCreationData["IntentionOrderTime"] = (purchaseDate === "无明确时间") ? null : "/Date(" + new Date(moment(purchaseDate)).getTime() + ")/";
         break;
       case "sourceLevel1":
         let sourceLevel1 = displayInfo.sourceLevel1.value;
