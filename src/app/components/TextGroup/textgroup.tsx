@@ -79,15 +79,15 @@ export default class TextGroup extends Component<Props, State> {
                 if (item.key === item2) {
                     if (aGroup.length < 3) {
                         aGroup.push(
-                                <View style={styles.defaultBtn} key={index}>
-                                    <Text style={styles.buttonText}>{item.text}</Text>
-                                </View>
+                            <View style={styles.defaultBtn} key={index}>
+                                <Text style={styles.buttonText}>{item.text}</Text>
+                            </View>
                         );
                     } else {
                         aGroup.push(
-                                <View style={styles.defaultBtn} key={index}>
-                                    <Text style={styles.buttonText}>{item.text}</Text>
-                                </View>
+                            <View style={styles.defaultBtn} key={index}>
+                                <Text style={styles.buttonText}>{item.text}</Text>
+                            </View>
                         );
                     }
                 }
@@ -111,6 +111,9 @@ export default class TextGroup extends Component<Props, State> {
                     break;
                 case Constants.CODE_ACTIVITY_PURPOSE_ORDERDRIVE:
                     that.state.bOrderDrive = true;
+                    break;
+                case Constants.CODE_ACTIVITY_PURPOSE_ORDERPLACED:
+                    that.state.bOrderPlaced = true;
                     break;
                 case Constants.CODE_ACTIVITY_PURPOSE_TESTDRIVE:
                     that.state.bTestDrive = true;
@@ -158,6 +161,8 @@ export default class TextGroup extends Component<Props, State> {
             QuoteAmount_content: _.round(this.props.data.QuoteAmount_content) + "万" || "无",
             VehicleModel: this.props.data.VehicleModel || "无",
             IsCustomerOwn: this.props.data.IsCustomerOwn ? "是" : "否",
+            IsBuyForSelf2: this.props.data.IsBuyForSelf2 ? "是" : "否",
+            IsBuyForCompany2: this.props.data.IsBuyForCompany2 ? "是" : "否",
             OtherVehicleModel: this.props.data.OtherVehicleModel ? "是" : "否",
             Reason1contentText: this.props.data.Reason1contentText || "无",
             Reason2contentText: this.props.data.Reason2contentText || "无",
@@ -167,27 +172,32 @@ export default class TextGroup extends Component<Props, State> {
             IntentModel: Utils.formatStringWithEllipsis(this.props.data.IntentModel, 8) || "无",
             NextActivityTime: Utils.formatC4CDateToDate(this.props.data.NextActivityTime, "YYYY/MM/DD HH:mm") || "无",
             CustomerResponse: this.props.data.CustomerResponse || "无",
+            IsDLScanned: this.props.data.IsDLScanned ? "已扫描" : "无",
+            IsIDCScanned: this.props.data.IsIDCScanned ? "已扫描" : "无",
+            IsRecepitScanned: this.props.data.IsRecepitScanned ? "已扫描" : "无",
         };
         if (Platform.OS === "android") {
             return (
-                    <View style={styles.groupRowsBox}>
-                        <RowAndroid name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={info.AppointmentDate} />
-                        <RowAndroid name="ArrivalTime" label="下次到店时间*" visible={this.state.bInvite} displayValue={info.ArrivalTime} />
-                        <RowAndroid name="QuoteAmount_content" label="下订金额*" visible={this.state.bOrderPlaced} displayValue={info.QuoteAmount_content} />
-                        <RowAndroid name="VehicleModel" label="试驾车型*" visible={this.state.bTestDrive} displayValue={info.VehicleModel} />
-                        <RowAndroid name="IsCustomerOwn" label="是否客户本人试驾" visible={this.state.bTestDrive} displayValue={info.IsCustomerOwn} />
-                        <RowAndroid name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue="功能开发中..." />
-                        <RowAndroid name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue="功能开发中..." />
-                        <RowAndroid name="OtherVehicleModel" label="试驾超过一辆车型*" visible={this.state.bTestDrive} displayValue={info.OtherVehicleModel} />
-                        <RowAndroid name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue="功能开发中..." />
-                        <RowAndroid name="Reason1contentText" label="战败类别*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason1contentText} />
-                        <RowAndroid name="Reason2contentText" label="战败原因*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason2contentText} />
-                        <RowAndroid name="CampaignName" label="活动" visible={!this.state.bReturnVisit} displayValue={info.CampaignName} />
-                        <RowAndroid name="ActivityTime" label="本次跟进时间*" displayValue={info.ActivityTime} />
-                        <RowAndroid name="IntentionLevelText" label="意向等级*" visible={!this.state.bReturnVisit} displayValue={info.IntentionLevelText} />
-                        <RowAndroid name="IntentModel" label="意向车型*" visible={!this.state.bReturnVisit} displayValue={info.IntentModel} />
-                        <RowAndroid name="NextActivityTime" label="下次跟进时间*" visible={!this.state.bReturnVisit} displayValue={info.NextActivityTime} />
-                        <RowAndroid name="CustomerResponse" label="客户反馈" displayValue={info.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} />
+                <View style={styles.groupRowsBox}>
+                    <RowAndroid name="AppointmentDate" label="预约试驾时间*" contextType="text" visible={this.state.bOrderDrive} displayValue={info.AppointmentDate} />
+                    <RowAndroid name="ArrivalTime" label="下次到店时间*" visible={this.state.bInvite} displayValue={info.ArrivalTime} />
+                    <RowAndroid name="QuoteAmount_content" label="下订金额*" visible={this.state.bOrderPlaced} displayValue={info.QuoteAmount_content} />
+                    <RowAndroid name="VehicleModel" label="试驾车型*" visible={this.state.bTestDrive} displayValue={info.VehicleModel} />
+                    <RowAndroid name="IsCustomerOwn" label="是否客户本人试驾" visible={this.state.bTestDrive} displayValue={info.IsCustomerOwn} />
+                    <RowAndroid name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue={info.IsDLScanned} />
+                    <RowAndroid name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue={info.IsIDCScanned} />
+                    <RowAndroid name="OtherVehicleModel" label="试驾超过一辆车型*" visible={this.state.bTestDrive} displayValue={info.OtherVehicleModel} />
+                    <RowAndroid name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue={info.IsRecepitScanned} />
+                    <RowAndroid name="IsBuyForCompany2" label="是否公司购车" visible={this.state.bKnockdown} displayValue={info.IsBuyForCompany2} />
+                    <RowAndroid name="IsBuyForSelf2" label="是否本人购车" visible={this.state.bKnockdown} displayValue={info.IsBuyForSelf2} />
+                    <RowAndroid name="Reason1contentText" label="战败类别*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason1contentText} />
+                    <RowAndroid name="Reason2contentText" label="战败原因*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason2contentText} />
+                    <RowAndroid name="CampaignName" label="活动" visible={!this.state.bReturnVisit} displayValue={info.CampaignName} />
+                    <RowAndroid name="ActivityTime" label="本次跟进时间*" displayValue={info.ActivityTime} />
+                    <RowAndroid name="IntentionLevelText" label="意向等级*" visible={!this.state.bReturnVisit} displayValue={info.IntentionLevelText} />
+                    <RowAndroid name="IntentModel" label="意向车型*" visible={!this.state.bReturnVisit} displayValue={info.IntentModel} />
+                    <RowAndroid name="NextActivityTime" label="下次跟进时间*" visible={!this.state.bReturnVisit} displayValue={info.NextActivityTime} />
+                    <RowAndroid name="CustomerResponse" label="客户反馈" displayValue={info.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} />
                 </View>
             );
         } else {
@@ -198,10 +208,12 @@ export default class TextGroup extends Component<Props, State> {
                     <RowIos name="QuoteAmount_content" label="下订金额*" visible={this.state.bOrderPlaced} displayValue={info.QuoteAmount_content} />
                     <RowIos name="VehicleModel" label="试驾车型*" visible={this.state.bTestDrive} displayValue={info.VehicleModel} />
                     <RowIos name="IsCustomerOwn" label="是否客户本人试驾" visible={this.state.bTestDrive} displayValue={info.IsCustomerOwn} />
-                    <RowIos name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue="功能开发中..." />
-                    <RowIos name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue="功能开发中..." />
+                    <RowIos name="IsDLScanned" label="驾照扫描" visible={this.state.bTestDrive} displayValue={info.IsDLScanned} />
+                    <RowIos name="IsIDCScanned" label="身份证扫描*" visible={this.state.bTestDrive} displayValue={info.IsIDCScanned} />
                     <RowIos name="OtherVehicleModel" label="试驾超过一辆车型*" visible={this.state.bTestDrive} displayValue={info.OtherVehicleModel} />
-                    <RowIos name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue="功能开发中..." />
+                    <RowIos name="IsRecepitScanned" label="发票扫描*" visible={this.state.bKnockdown} displayValue={info.IsRecepitScanned} />
+                    <RowIos name="IsBuyForCompany2" label="是否公司购车" visible={this.state.bKnockdown} displayValue={info.IsBuyForCompany2} />
+                    <RowIos name="IsBuyForSelf2" label="是否本人购车" visible={this.state.bKnockdown} displayValue={info.IsBuyForSelf2} />
                     <RowIos name="Reason1contentText" label="战败类别*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason1contentText} />
                     <RowIos name="Reason2contentText" label="战败原因*" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={info.Reason2contentText} />
                     <RowIos name="CampaignName" label="活动" visible={!this.state.bReturnVisit} displayValue={info.CampaignName} />

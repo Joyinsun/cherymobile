@@ -15,7 +15,7 @@ interface Props {
     navigator?: Navigation;
     label: string;
     name?: string;
-    contextType?: "text" | "input" | "datepicker" | "picker" | "textarea" | "multiSelect" | "datetimepicker";
+    contextType?: "text" | "input" | "datepicker" | "picker" | "textarea" | "multiSelect" | "datetimepicker" | "scanIDCard" | "scanDriveCard" | "scanInvoice";
     fontSize?: number;
     placeholder?: string;
     displayValue?: any;
@@ -77,7 +77,7 @@ class Row extends Component<Props, State> {
             return (
                 <View style={[{ flexDirection: "column" }, this.props.visible === false ? styles.inVisible : {}]}>
                     <View style={[styles.container]}>
-                        <Text style={[styles.text, {color: Constants.COLOR.GREY_252525}]}>{this.props.label}</Text>
+                        <Text style={[styles.text, { color: Constants.COLOR.GREY_252525 }]}>{this.props.label}</Text>
                         {this.renderContextChild()}
                     </View>
                     {this.renderDatePicker()}
@@ -236,7 +236,7 @@ class Row extends Component<Props, State> {
     private openMultiSelected() {
         if (this.props.editable) {
             this.props.navigator.showModal({
-                title: "",
+                ttitle: this.props.rootScreenTitle,
                 screen: "row.MultiSelectScreen",
                 passProps: {
                     onSelectItem: (value) => this.onSelectItems(value),
@@ -305,6 +305,46 @@ class Row extends Component<Props, State> {
             </TouchableOpacity>
         );
     }
+    private renderScannerText(): JSX.Element {
+        let displayStyle = new Object();
+        displayStyle["display"] = this.state.editable ? "flex" : "none";
+        let color = this.state.editable ? Constants.COLOR.GREY : Constants.COLOR.LIGHTGREY;
+        return (
+            <TouchableOpacity onPress={() => this.onScanPress()}>
+                <View style={styles.NavRow}>
+                    <Text style={[styles.text, styles.margin, { color: color }]}>{this.props.editable ? this.state.displayValue : ""}</Text>
+                    <Icon style={displayStyle} name="navigate-next" size={30} color={color} />
+                </View>
+            </TouchableOpacity>
+        );
+    }
+    private onScanPress() {
+        if (this.props.editable) {
+            this.props.navigator.showModal({
+                title: this.props.rootScreenTitle,
+                screen: "row.ScanInfoScreen",
+                passProps: {
+                    onSelectItem: (value) => this.onSaveScanData(value),
+                    type: this.props.contextType
+                }
+            });
+        }
+    }
+    private onSaveScanData(oValue) {
+        this.setState({
+            displayValue: oValue.value
+        });
+        if (this.props.onChangeEvent) {
+            if (this.props.name) {
+                let labelName = this.props.name;
+                let displayInfo = new Object();
+                displayInfo[labelName] = oValue;
+                this.props.onChangeEvent(displayInfo);
+            } else {
+                this.props.onChangeEvent(oValue);
+            }
+        }
+    }
     private renderContextChild(): JSX.Element {
         switch (this.props.contextType) {
             case "text": return this.renderTextComponent();
@@ -314,6 +354,9 @@ class Row extends Component<Props, State> {
             case "multiSelect": return this.renderMultiSelectComponent();
             case "textarea": return this.renderTextAreaComponent();
             case "datetimepicker": return this.renderDateTimePickerText();
+            case "scanIDCard": return this.renderScannerText();
+            case "scanDriveCard": return this.renderScannerText();
+            case "scanInvoice": return this.renderScannerText();
             default: return; //当displayValue没有时，右侧不渲染任何组件
         }
     }
@@ -353,5 +396,4 @@ class Row extends Component<Props, State> {
         );
     }
 }
-
 export default Row;

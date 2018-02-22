@@ -12,11 +12,11 @@ interface ILeadActivity {
 	VehicleModeID: string; //试驾车型id
 	DriverID: string; //试驾员ID
 	IsCustomerOwn: boolean; //是否客户本人试驾
-	IsDLScanned: string; //驾照扫描
-	IsIDCScanned: string; //身份证扫描
+	IsDLScanned: boolean; //驾照扫描
+	IsIDCScanned: boolean; //身份证扫描
 	OtherVehicleModelID: string; //试驾超过一辆车型
 	OtherVehicleModel: string;
-	IsRecepitScanned: string; //发票扫描
+	IsRecepitScanned: boolean; //发票扫描
 	CampaignName: string; //活动
 	CampaignID: string;
 	PhoneDuration: string;
@@ -30,6 +30,8 @@ interface ILeadActivity {
 	Reason2content: string; //战败原因
 	Reason1contentText: string;
 	Reason2contentText: string;
+	IsBuyForSelf2: boolean; //是否本人购车
+	IsBuyForCompany2: boolean; //是否公司购车
 }
 
 export default ILeadActivity;

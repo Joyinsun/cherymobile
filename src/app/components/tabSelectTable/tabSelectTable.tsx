@@ -84,11 +84,11 @@ export default class TabSelectTable extends Component<Props, State> {
 			VehicleModeID: "", //试驾车型id
 			DriverID: "", //试驾员ID
 			IsCustomerOwn: true, //是否客户本人试驾
-			IsDLScanned: "", //驾照扫描
-			IsIDCScanned: "", //身份证扫描
+			IsDLScanned: false, //驾照扫描
+			IsIDCScanned: false, //身份证扫描
 			OtherVehicleModelID: "", //试驾超过一辆车型
 			OtherVehicleModel: "请选择",
-			IsRecepitScanned: "", //发票扫描
+			IsRecepitScanned: false, //发票扫描
 			CampaignName: "请选择", //活动
 			CampaignID: "",
 			PhoneDuration: "",
@@ -101,7 +101,9 @@ export default class TabSelectTable extends Component<Props, State> {
 			Reason1content: "请选择", //战败/流失原因一类
 			Reason2content: "", //战败/流失原因二类
 			Reason1contentText: "",
-			Reason2contentText: ""
+			Reason2contentText: "",
+			IsBuyForSelf2: true,
+			IsBuyForCompany2: false
 		}
 	};
 
@@ -400,18 +402,20 @@ export default class TabSelectTable extends Component<Props, State> {
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="AppointmentDate" label="预约试驾时间*" contextType="datepicker" visible={this.state.bOrderDrive} displayValue={this.state.data.AppointmentDate} navigator={this.props.navigator} />
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="ArrivalTime" label="下次到店时间*" contextType="datetimepicker" visible={this.state.bInvite} displayValue={this.state.data.ArrivalTime} navigator={this.props.navigator} />
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="QuoteAmount_content" label="下订金额*" contextType="input" visible={this.state.bOrderPlaced} displayValue={this.state.data.QuoteAmount_content} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="VehicleModel" label="试驾车型*" dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.VehicleModel} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsCustomerOwn" dataSource={aIsCustomerOwn} label="是否客户本人试驾" contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsDLScanned" label="驾照扫描" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsIDCScanned" label="身份证扫描*" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="OtherVehicleModel" label="试驾超过一辆车型*" dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.OtherVehicleModel} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsRecepitScanned" label="发票扫描*" contextType="input" visible={this.state.bKnockdown} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="Reason1contentText" label="战败类别*" dataSource={GlobalVariable.metadata.activityReason1List.data} contextType="picker" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.data.Reason1contentText} navigator={this.props.navigator} />
-					<RowAndroid editable={this.state.Reason2contentEditable} onChangeEvent={this.onValueChange.bind(this)} name="Reason2contentText" label="战败原因*" dataSource={GlobalVariable.metadata.activityReason2List.data} contextType="multiSelect" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.Reason2contentTexts} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CampaignName" label="活动" dataSource={GlobalVariable.metadata.activityCampaignList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.CampaignName} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="VehicleModel" label="试驾车型*" rootScreenTitle={"试驾车型"} dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.VehicleModel} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsCustomerOwn" dataSource={aIsCustomerOwn} label="是否客户本人试驾" rootScreenTitle={"是否本人试驾"} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsDLScanned" label="驾照扫描*" contextType="scanDriveCard" rootScreenTitle={"驾照扫描"} visible={this.state.bTestDrive} displayValue={this.state.data.IsDLScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsIDCScanned" label="身份证扫描*" rootScreenTitle={"身份证扫描"} contextType="scanIDCard" visible={this.state.bTestDrive} displayValue={this.state.data.IsIDCScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="OtherVehicleModel" label="试驾超过一辆车型*" rootScreenTitle={"试驾车型"} dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.OtherVehicleModel} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsRecepitScanned" label="发票扫描*" rootScreenTitle={"发票扫描"} contextType="scanInvoice" visible={this.state.bKnockdown} displayValue={this.state.data.IsRecepitScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsBuyForCompany2" dataSource={aIsCustomerOwn} rootScreenTitle={"是否公司购车"} label="是否公司购车" contextType="picker" visible={this.state.bKnockdown} displayValue={this.state.data.IsBuyForCompany2 ? "是" : "否"} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsBuyForSelf2" dataSource={aIsCustomerOwn} rootScreenTitle={"是否本人购车"} label="是否本人购车" contextType="picker" visible={this.state.bKnockdown} displayValue={this.state.data.IsBuyForSelf2 ? "是" : "否"} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="Reason1contentText" label="战败类别*" rootScreenTitle={"战败类别"} dataSource={GlobalVariable.metadata.activityReason1List.data} contextType="picker" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.data.Reason1contentText} navigator={this.props.navigator} />
+					<RowAndroid editable={this.state.Reason2contentEditable} onChangeEvent={this.onValueChange.bind(this)} name="Reason2contentText" label="战败原因*" rootScreenTitle={"战败原因"} dataSource={GlobalVariable.metadata.activityReason2List.data} contextType="multiSelect" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.Reason2contentTexts} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CampaignName" label="活动" rootScreenTitle={"活动"} dataSource={GlobalVariable.metadata.activityCampaignList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.CampaignName} navigator={this.props.navigator} />
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="ActivityTime" label="本次跟进时间*" contextType="datetimepicker" displayValue={this.state.data.ActivityTime} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentionLevelText" label="意向等级*" dataSource={GlobalVariable.metadata.activityIntentionLevelList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentionLevelText} navigator={this.props.navigator} />
-					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentModel" rootScreenTitle={Constants.CN_INTENTCARMODEL}  hasChild={true} childScreenTitle="品种/动总/型号" dataSource={GlobalVariable.metadata.carTypeList.data} label="意向车型*" contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentModel} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentionLevelText" label="意向等级*" rootScreenTitle={"意向等级"} dataSource={GlobalVariable.metadata.activityIntentionLevelList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentionLevelText} navigator={this.props.navigator} />
+					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentModel" rootScreenTitle={Constants.CN_INTENTCARMODEL} hasChild={true} childScreenTitle="品种/动总/型号" dataSource={GlobalVariable.metadata.carTypeList.data} label="意向车型*" contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentModel} navigator={this.props.navigator} />
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="NextActivityTime" label="下次跟进时间*" contextType="datetimepicker" visible={!this.state.bReturnVisit} displayValue={this.state.data.NextActivityTime} navigator={this.props.navigator} />
 					<RowAndroid editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CustomerResponse" label="客户反馈" contextType="textarea" displayValue={this.state.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
 				</View>
@@ -422,17 +426,19 @@ export default class TabSelectTable extends Component<Props, State> {
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="AppointmentDate" label="预约试驾时间*" contextType="datepicker" visible={this.state.bOrderDrive} displayValue={this.state.data.AppointmentDate} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="ArrivalTime" label="下次到店时间*" contextType="datetimepicker" visible={this.state.bInvite} displayValue={this.state.data.ArrivalTime} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="QuoteAmount_content" label="下订金额*" contextType="input" visible={this.state.bOrderPlaced} displayValue={this.state.data.QuoteAmount_content} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="VehicleModel" label="试驾车型*" dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.VehicleModel} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsCustomerOwn" dataSource={aIsCustomerOwn} label="是否客户本人试驾" contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsDLScanned" label="驾照扫描" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsIDCScanned" label="身份证扫描*" contextType="text" visible={this.state.bTestDrive} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="OtherVehicleModel" label="试驾超过一辆车型*" dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.OtherVehicleModel} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsRecepitScanned" label="发票扫描*" contextType="input" visible={this.state.bKnockdown} displayValue="功能开发中..." navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="Reason1contentText" label="战败类别*" dataSource={GlobalVariable.metadata.activityReason1List.data} contextType="picker" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.data.Reason1contentText} navigator={this.props.navigator} />
-					<RowIos editable={this.state.Reason2contentEditable} onChangeEvent={this.onValueChange.bind(this)} name="Reason2contentText" label="战败原因*" dataSource={GlobalVariable.metadata.activityReason2List.data} contextType="multiSelect" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.Reason2contentTexts} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CampaignName" label="活动" contextType="picker" dataSource={GlobalVariable.metadata.activityCampaignList.data} visible={!this.state.bReturnVisit} displayValue={this.state.data.CampaignName} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="VehicleModel" label="试驾车型*" rootScreenTitle={"试驾车型"} dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.VehicleModel} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsCustomerOwn" dataSource={aIsCustomerOwn} label="是否客户本人试驾" rootScreenTitle={"是否本人试驾"} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.IsCustomerOwn ? "是" : "否"} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsDLScanned" label="驾照扫描*" contextType="scanDriveCard" rootScreenTitle={"驾照扫描"} visible={this.state.bTestDrive} displayValue={this.state.data.IsDLScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsIDCScanned" label="身份证扫描*" rootScreenTitle={"身份证扫描"} contextType="scanIDCard" visible={this.state.bTestDrive} displayValue={this.state.data.IsIDCScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="OtherVehicleModel" label="试驾超过一辆车型*" rootScreenTitle={"试驾车型"} dataSource={GlobalVariable.metadata.activityTestCarList.data} contextType="picker" visible={this.state.bTestDrive} displayValue={this.state.data.OtherVehicleModel} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsRecepitScanned" label="发票扫描*" rootScreenTitle={"发票扫描"} contextType="scanInvoice" visible={this.state.bKnockdown} displayValue={this.state.data.IsRecepitScanned ? "已扫描" : ""} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsBuyForCompany2" dataSource={aIsCustomerOwn} rootScreenTitle={"是否公司购车"} label="是否公司购车" contextType="picker" visible={this.state.bKnockdown} displayValue={this.state.data.IsBuyForCompany2 ? "是" : "否"} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IsBuyForSelf2" dataSource={aIsCustomerOwn} rootScreenTitle={"是否本人购车"} label="是否本人购车" contextType="picker" visible={this.state.bKnockdown} displayValue={this.state.data.IsBuyForSelf2 ? "是" : "否"} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="Reason1contentText" label="战败类别*" rootScreenTitle={"战败类别"} dataSource={GlobalVariable.metadata.activityReason1List.data} contextType="picker" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.data.Reason1contentText} navigator={this.props.navigator} />
+					<RowIos editable={this.state.Reason2contentEditable} onChangeEvent={this.onValueChange.bind(this)} name="Reason2contentText" label="战败原因*" rootScreenTitle={"战败原因"} dataSource={GlobalVariable.metadata.activityReason2List.data} contextType="multiSelect" visible={this.state.bDefeat || this.state.bUnsubscribe || this.state.bReturnedGoods} displayValue={this.state.Reason2contentTexts} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CampaignName" label="活动" rootScreenTitle={"活动"} dataSource={GlobalVariable.metadata.activityCampaignList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.CampaignName} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="ActivityTime" label="本次跟进时间*" contextType="datetimepicker" displayValue={this.state.data.ActivityTime} navigator={this.props.navigator} />
-					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentionLevelText" label="意向等级*" dataSource={GlobalVariable.metadata.activityIntentionLevelList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentionLevelText} navigator={this.props.navigator} />
+					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentionLevelText" label="意向等级*" rootScreenTitle={"意向等级"} dataSource={GlobalVariable.metadata.activityIntentionLevelList.data} contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentionLevelText} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="IntentModel" rootScreenTitle={Constants.CN_INTENTCARMODEL} hasChild={true} childScreenTitle="品种/动总/型号" dataSource={GlobalVariable.metadata.carTypeList.data} label="意向车型*" contextType="picker" visible={!this.state.bReturnVisit} displayValue={this.state.data.IntentModel} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="NextActivityTime" label="下次跟进时间*" contextType="datetimepicker" visible={!this.state.bReturnVisit} displayValue={this.state.data.NextActivityTime} navigator={this.props.navigator} />
 					<RowIos editable={true} onChangeEvent={this.onValueChange.bind(this)} name="CustomerResponse" label="客户反馈" contextType="textarea" displayValue={this.state.data.CustomerResponse} displayType="column" displayCounterText={true} maxLength={200} navigator={this.props.navigator} />
@@ -452,7 +458,7 @@ export default class TabSelectTable extends Component<Props, State> {
 					case "Reason1contentText":
 						oData[key] = displayInfo[key].value;
 						oData["Reason1content"] = displayInfo[key].key;
-						if (oData["Reason1content"] === "Z01" || oData["Reason1content"] === "Z01") {
+						if (oData["Reason1content"] === "Z01" || oData["Reason1content"] === "Z02") {
 							that.state.Reason2contentEditable = true;
 						} else {
 							oData.Reason2content = "";
@@ -482,7 +488,7 @@ export default class TabSelectTable extends Component<Props, State> {
 						break;
 					case "VehicleModel":
 						oData[key] = displayInfo[key].value;
-						oData["VehicleModeID"] = displayInfo[key].key;
+						oData["VehicleModeID"] = displayInfo[key].key.toString();
 						oData["DriverID"] = displayInfo[key].id;
 						break;
 					case "IntentModel":
@@ -492,10 +498,43 @@ export default class TabSelectTable extends Component<Props, State> {
 					case "IsCustomerOwn":
 						oData[key] = displayInfo[key].key;
 						break;
+					case "IsBuyForCompany2":
+						oData[key] = displayInfo[key].key;
+						break;
+					case "IsBuyForSelf2":
+						oData[key] = displayInfo[key].key;
+						break;
 					case "OtherVehicleModel":
 						oData[key] = displayInfo[key].value;
 						oData["OtherVehicleModelID"] = displayInfo[key].key;
 						oData["DriverID"] = displayInfo[key].id;
+						break;
+					case "IsDLScanned": //驾照扫描
+						oData[key] = true;
+						let oIsDLScanned = displayInfo[key];
+						for (var sIsDLScannedKey in oIsDLScanned) {
+							if (oIsDLScanned.hasOwnProperty(sIsDLScannedKey) && (oIsDLScanned[sIsDLScannedKey] != "" && oIsDLScanned[sIsDLScannedKey] !== "请选择")) {
+								oData[sIsDLScannedKey] = oIsDLScanned[sIsDLScannedKey];
+							}
+						}
+						break;
+					case "IsIDCScanned": //身份证扫描
+						oData[key] = true;
+						let oIsIDCScanned = displayInfo[key];
+						for (var sIsIDCScannedKey in oIsIDCScanned) {
+							if (oIsIDCScanned.hasOwnProperty(sIsIDCScannedKey) && (oIsIDCScanned[sIsIDCScannedKey] != "" && oIsIDCScanned[sIsIDCScannedKey] !== "请选择")) {
+								oData[sIsIDCScannedKey] = oIsIDCScanned[sIsIDCScannedKey];
+							}
+						}
+						break;
+					case "IsRecepitScanned": //发票扫描
+						oData[key] = true;
+						let oIsRecepitScanned = displayInfo[key];
+						for (var dataKey in oIsRecepitScanned) {
+							if (oIsRecepitScanned.hasOwnProperty(dataKey) && (oIsRecepitScanned[dataKey] != "" && oIsRecepitScanned[dataKey] !== "请选择")) {
+								oData[dataKey] = oIsRecepitScanned[dataKey];
+							}
+						}
 						break;
 					default:
 						oData[key] = displayInfo[key];

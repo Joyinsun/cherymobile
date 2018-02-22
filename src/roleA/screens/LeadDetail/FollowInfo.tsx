@@ -317,7 +317,8 @@ class FollowInfo extends Component<Props, State> {
 		let oSaveData = new Object();
 		for (var key in data) {
 			if (data.hasOwnProperty(key) && (data[key] != "" && data[key] !== "请选择")) {
-				if (key === "AppointmentDate" || key === "ArrivalTime" || key === "NextActivityTime" || key === "ActivityTime" || key === "APPActivityDateTime2") {
+				if (key === "AppointmentDate" || key === "ArrivalTime" || key === "NextActivityTime" || key === "ActivityTime" || key === "APPActivityDateTime2"
+					|| key === "OCRBirthDate" || key === "OCRApplicationDate" || key === "OCRStartDate" || key === "OCRInvoiceDate") {
 					let d = moment(data[key]).valueOf();
 					oSaveData[key] = "/Date(" + d + ")/";
 				} else {
@@ -332,6 +333,8 @@ class FollowInfo extends Component<Props, State> {
 		//alert(JSON.stringify(oSaveData));
 		oSaveData["Purpose"] = this.tabSelectTable.state.aSelectGroups.toString();
 		oSaveData["SubjectName"] = this.tabSelectTable.state.aSelectGroups.toString();
+		oSaveData["SalesRepName"] = GlobalVariable.userdetail.name;
+		oSaveData["SalesRepID"] = GlobalVariable.userdetail.sciUserId;
 		oSaveData["CustomerInternalID"] = this.props.lead.CustomerID;
 		oSaveData["LeadIDcontent"] = this.props.lead.ID;
 		if (this.tabSelectTable.state.aSelectGroups.includes(Constants.CODE_ACTIVITY_PURPOSE_INVITE)) {

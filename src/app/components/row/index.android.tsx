@@ -15,7 +15,7 @@ interface Props {
     navigator?: Navigation;
     label: string;
     name?: string;
-    contextType?: "text" | "input" | "datepicker" | "picker" | "textarea" | "multiSelect" | "datetimepicker";
+    contextType?: "text" | "input" | "datepicker" | "picker" | "textarea" | "multiSelect" | "datetimepicker" | "scanIDCard" | "scanDriveCard" | "scanInvoice";
     fontSize?: number;
     placeholder?: string;
     displayValue?: any;
@@ -74,7 +74,7 @@ class Row extends Component<Props, State> {
             return (
                 <View style={[{ flexDirection: "column" }, this.props.visible === false ? styles.inVisible : {}]}>
                     <View style={[styles.container]}>
-                        <Text style={[styles.text, {color: Constants.COLOR.GREY_252525}]}>{this.props.label}</Text>
+                        <Text style={[styles.text, { color: Constants.COLOR.GREY_252525 }]}>{this.props.label}</Text>
                         {this.renderContextChild()}
                     </View>
                     {this.renderDateTimePicker()}
@@ -128,6 +128,20 @@ class Row extends Component<Props, State> {
             </TouchableOpacity>
         );
     }
+    private renderScannerText(): JSX.Element {
+        let displayStyle = new Object();
+        displayStyle["display"] = this.state.editable ? "flex" : "none";
+        let color = this.state.editable ? Constants.COLOR.GREY : Constants.COLOR.LIGHTGREY;
+        return (
+            <TouchableOpacity onPress={() => this.onScanPress()}>
+                <View style={styles.NavRow}>
+                    <Text style={[styles.text, styles.margin, { color: color }]}>{this.props.editable ? this.state.displayValue : ""}</Text>
+                    <Icon style={displayStyle} name="navigate-next" size={30} color={color} />
+                </View>
+            </TouchableOpacity>
+        );
+    }
+
     private renderContextChild(): JSX.Element {
         if (this.props.editable) {
             switch (this.props.contextType) {
@@ -138,6 +152,9 @@ class Row extends Component<Props, State> {
                 case "multiSelect": return this.renderMultiSelectComponent();
                 case "textarea": return this.renderTextAreaComponent();
                 case "datetimepicker": return this.renderDatePickerText();
+                case "scanIDCard": return this.renderScannerText();
+                case "scanDriveCard": return this.renderScannerText();
+                case "scanInvoice": return this.renderScannerText();
                 default: return; //当displayValue没有时，右侧不渲染任何组件
             }
         } else {
@@ -166,13 +183,40 @@ class Row extends Component<Props, State> {
     private openMultiSelected() {
         if (this.props.editable) {
             this.props.navigator.showModal({
-                title: "",
+                title: this.props.rootScreenTitle,
                 screen: "row.MultiSelectScreen",
                 passProps: {
                     onSelectItem: (value) => this.onSelectItems(value),
                     dataList: this.props.dataSource
                 }
             });
+        }
+    }
+    private onScanPress() {
+        if (this.props.editable) {
+            this.props.navigator.showModal({
+                title: this.props.rootScreenTitle,
+                screen: "row.ScanInfoScreen",
+                passProps: {
+                    onSelectItem: (value) => this.onSaveScanData(value),
+                    type: this.props.contextType
+                }
+            });
+        }
+    }
+    private onSaveScanData(oValue) {
+        this.setState({
+            displayValue: oValue.value
+        });
+        if (this.props.onChangeEvent) {
+            if (this.props.name) {
+                let labelName = this.props.name;
+                let displayInfo = new Object();
+                displayInfo[labelName] = oValue;
+                this.props.onChangeEvent(displayInfo);
+            } else {
+                this.props.onChangeEvent(oValue);
+            }
         }
     }
     private onSelectItems(aValues) {
@@ -259,20 +303,20 @@ class Row extends Component<Props, State> {
     }
     private renderDateTimePicker(): JSX.Element {
         return (<View style={styles.inVisible}>
-                    <DatePicker ref={dateTime => {
-                        this.dateTime = dateTime;
-                    }}
-                    style={{ width: 200 }}
-                    date={new Date()}
-                    mode="datetime"
-                    format="YYYY-MM-DD HH:mm"
-                    confirmBtnText="确定"
-                    cancelBtnText="取消"
-                    minuteInterval={10}
-                    showIcon={false}
-                    onDateChange={(value) => this.onDateTimeChange(value)}
-                />
-            </View>);
+            <DatePicker ref={dateTime => {
+                this.dateTime = dateTime;
+            }}
+                style={{ width: 200 }}
+                date={new Date()}
+                mode="datetime"
+                format="YYYY-MM-DD HH:mm"
+                confirmBtnText="确定"
+                cancelBtnText="取消"
+                minuteInterval={10}
+                showIcon={false}
+                onDateChange={(value) => this.onDateTimeChange(value)}
+            />
+        </View>);
     }
     private renderPickerComponent(): JSX.Element {
         let displayStyle = new Object();

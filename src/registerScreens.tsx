@@ -19,6 +19,7 @@ import LeadDetailScreen from "./roleA/screens/LeadDetail/Tabs";
 import SimpleSelectScreen from "./app/components/row/simpleSelectScreen";
 import MultiSelectScreen from "./app/components/row/multiSelectScreen";
 import SecondSimpleSelectScreen from "./app/components/row/secondSimpleSelectScreen";
+import ScanInfoScreen from "./app/components/row/scanInfoScreen";
 
 import CreateLeadScreen from "./roleA/screens/CreateLeadScreen";
 import HigherAppro from "./roleA/screens/HigherAppro/Tabs";
@@ -89,7 +90,8 @@ export function registerScreens(store: any, provider: any) {
 	Navigation.registerComponent("row.SimpleSelectScreen", () => SimpleSelectScreen, store, provider);
 	Navigation.registerComponent("row.MultiSelectScreen", () => MultiSelectScreen, store, provider);
 	Navigation.registerComponent("row.SecondSimpleSelectScreen", () => SecondSimpleSelectScreen, store, provider);
-
+	Navigation.registerComponent("row.ScanInfoScreen", () => ScanInfoScreen, store, provider);
+	
 	Navigation.registerComponent("manager.ManagerHomeScreen", () => ManagerHomeScreen, store, provider);
 	Navigation.registerComponent("manager.ManagerMyCenterScreen", () => ManagerMyCenterScreen, store, provider);
 	Navigation.registerComponent("manager.LeadScreen", () => LeadScreen, store, provider);

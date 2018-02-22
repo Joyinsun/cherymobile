@@ -64,7 +64,7 @@ class SimpleSelectScreen extends Component<Props, State> {
             });
         } else {
             this.props.onSelectItem(rowData);
-            this.props.navigator.dismissAllModals();
+            this.props.navigator.dismissModal();
         }
     }
     private renderRow(rowData): JSX.Element {

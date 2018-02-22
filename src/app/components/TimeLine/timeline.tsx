@@ -95,17 +95,17 @@ export default class Timeline extends Component<Props, State> {
       }
     } else {
       content = (
-        <View style={[{flexDirection: "row" }]}>
+        <View style={[{ flex: 1 }]}>
+          <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
             {this._renderTitileIcon(rowData, sectionID, rowID)}
-          <View style={{justifyContent: "flex-start"}}>
             {this._renderTitile(rowData, sectionID, rowID)}
-            {this._renderDetail(rowData, sectionID, rowID)}
           </View>
+          {this._renderDetail(rowData, sectionID, rowID)}
         </View>
       );
     }
     return (
-      <View key={rowID} style={{marginBottom: 5, borderWidth: 0}}>
+      <View key={rowID} style={{ marginBottom: 5, borderWidth: 0 }}>
         {/* Attention: please do not delete property `borderWidth: 0`*/}
         {content}
       </View>
@@ -127,58 +127,58 @@ export default class Timeline extends Component<Props, State> {
   private _renderToolBar(rowData, sectionID, rowID) {
     let oCall = this.props.bCallEnable
       ? (<TouchableOpacity
-          onPress={this._pressCall.bind(this)}
-        >
-          <Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/phone.png")}
-            />
-        </TouchableOpacity>)
+        onPress={this._pressCall.bind(this)}
+      >
+        <Image
+          style={styles.toolBarIcon}
+          source={require("../../../../img/phone.png")}
+        />
+      </TouchableOpacity>)
       : (<Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/phone.png")}
-          />);
+        style={styles.toolBarIcon}
+        source={require("../../../../img/phone.png")}
+      />);
     let oSMS = this.props.bSMSEnable
       ? (<TouchableOpacity
-          onPress={this._pressSMS.bind(this)}
-        >
-          <Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/message.png")}
-          />
-        </TouchableOpacity>)
+        onPress={this._pressSMS.bind(this)}
+      >
+        <Image
+          style={styles.toolBarIcon}
+          source={require("../../../../img/message.png")}
+        />
+      </TouchableOpacity>)
       : (<Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/message.png")}
-          />);
+        style={styles.toolBarIcon}
+        source={require("../../../../img/message.png")}
+      />);
     let oLocal = this.props.bLocalEnable
       ? (<TouchableOpacity
-          onPress={this._pressLocal.bind(this)}
-        >
-          <Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/store.png")}
-          />
-        </TouchableOpacity>)
-      : (<Image
+        onPress={this._pressLocal.bind(this)}
+      >
+        <Image
           style={styles.toolBarIcon}
           source={require("../../../../img/store.png")}
-        />);
+        />
+      </TouchableOpacity>)
+      : (<Image
+        style={styles.toolBarIcon}
+        source={require("../../../../img/store.png")}
+      />);
     let oWechat = this.props.bWechatEnable
       ? (<TouchableOpacity
-          onPress={this._pressWeChat.bind(this)}
-        >
-          <Image
-            style={styles.toolBarIcon}
-            source={require("../../../../img/wechat.png")}
-          />
-        </TouchableOpacity>)
-      : (<Image
+        onPress={this._pressWeChat.bind(this)}
+      >
+        <Image
           style={styles.toolBarIcon}
           source={require("../../../../img/wechat.png")}
-        />);
+        />
+      </TouchableOpacity>)
+      : (<Image
+        style={styles.toolBarIcon}
+        source={require("../../../../img/wechat.png")}
+      />);
     return (
-      <View style={[styles.rowContainer, {justifyContent: "space-between"}]}>
+      <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
         {this._renderTitileIcon(rowData, sectionID, rowID)}
         <View style={[styles.toolBar, styles.itemContentCard]}>
           {oCall}
@@ -213,10 +213,23 @@ export default class Timeline extends Component<Props, State> {
   private _renderDetail(rowData, sectionID, rowID) {
     let dashLineDisplay = Number.parseInt(rowID) !== this.state.data.length - 1 ? "block" : "none";
     let oDetailBox = null;
+    const info: any = {
+      activityType: rowData.GroupCodeText + "跟进",
+      changeBy: "由[销售顾问" + (rowData.SalesRepName ? rowData.SalesRepName : "未知") + "]变更状态",
+      activityTime: Util.formatC4CDateToDate(rowData.ActivityTime, "YYYY/MM/DD HH:MM")
+    };
     if (this.aTypes.includes(rowData.GroupCode)) {
       if (this.state.rowIds.includes(rowID)) {
         oDetailBox = (
           <View style={[styles.itemContentCard, styles.detailBox]}>
+            <View style={[{ flex: 1, flexDirection: "row", justifyContent: "space-between", marginBottom: 12, marginTop: 7 }]}>
+              <Text style={[styles.subTitle]}>
+                {info.changeBy}
+              </Text>
+              <Text style={[styles.subTitle]}>
+                {info.activityTime}
+              </Text>
+            </View>
             <ButtonGroup data={rowData} expand={true} />
             <TouchableOpacity
               style={styles.toggleButtonBox}
@@ -229,6 +242,14 @@ export default class Timeline extends Component<Props, State> {
       } else {
         oDetailBox = (
           <View style={[styles.itemContentCard, styles.detailBox]}>
+            <View style={[{ flex: 1, flexDirection: "row", justifyContent: "space-between", marginBottom: 12, marginTop: 7 }]}>
+              <Text style={[styles.subTitle]}>
+                {info.changeBy}
+              </Text>
+              <Text style={[styles.subTitle]}>
+                {info.activityTime}
+              </Text>
+            </View>
             <ButtonGroup data={rowData} expand={false} />
             <TouchableOpacity
               style={styles.toggleButtonBox}
@@ -242,7 +263,7 @@ export default class Timeline extends Component<Props, State> {
         );
       }
     } else {
-      oDetailBox = (<View style={[ styles.shortDetailBox]}>
+      oDetailBox = (<View style={[styles.shortDetailBox]}>
         <Text style={[styles.detailText]}>
           {rowData.GroupCodeText}
         </Text>
@@ -251,29 +272,58 @@ export default class Timeline extends Component<Props, State> {
         </Text>
       </View>);
     }
-    return oDetailBox;
+    if (rowData.GroupCode === "Z001" || rowData.GroupCode === "Z002" || rowData.GroupCode === "Z003" || rowData.GroupCode === "Z004") {
+      return (
+        <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
+          <View style={[styles.titleHeaderIcon]}>
+            <View style={styles.leftTimeline}>
+              <DashLine visible={Number.parseInt(rowID) !== this.state.data.length - 1 ? true : false} />
+            </View>
+          </View>
+          {oDetailBox}
+        </View>);
+    } else {
+      return (
+        <View style={[styles.rowContainer, { justifyContent: "space-between" }]}>
+          <View style={[styles.titleHeaderIcon]}>
+            <View style={styles.leftTimeline}>
+              <DashLine visible={Number.parseInt(rowID) !== this.state.data.length - 1 ? true : false} />
+            </View>
+          </View>
+          <View style={[styles.shortDetailBox]}>
+            <Text style={[styles.detailText]}>
+              {"此线索被指派给顾问" + (rowData.SalesRepName ? rowData.SalesRepName : "未知")}
+            </Text>
+          </View>
+        </View>);
+    }
   }
   private _renderTitile(rowData, sectionID, rowID) {
     const info: any = {
-      activityType: rowData.GroupCodeText + "跟进",
-      changeBy: "由[销售顾问" + (rowData.SalesManName ? rowData.SalesManName : "未知") + "]变更状态",
-      activityTime: Util.formatC4CDateToDate(rowData.ActivityTime, "YYYY/MM/DD HH:MM")
+      activityType: rowData.GroupCodeText + "跟进"
     };
-    return (
-      <View style={[{flex: 1, justifyContent: "flex-start" }]}>
+    if (rowData.GroupCode === "Z001" || rowData.GroupCode === "Z002" || rowData.GroupCode === "Z003" || rowData.GroupCode === "Z004") {
+      return (
+        <View style={[{ flex: 1, justifyContent: "flex-start" }]}>
           <Text style={[styles.title]}>
             {info.activityType}
           </Text>
-        <View style={[{flex: 1, flexDirection: "row", justifyContent: "space-between", marginBottom: 12, marginTop: 7}]}>
-            <Text style={[styles.subTitle]}>
-              {info.changeBy}
+        </View>
+      );
+    } else {
+      return (
+        <View style={[{ flex: 1, justifyContent: "flex-start" }]}>
+          <View style={[{ flex: 1, flexDirection: "row", justifyContent: "space-between"}]}>
+            <Text style={[styles.subTtitleitle]}>
+              {"[" + (rowData.SalesManName ? rowData.SalesManName : "未知") + "]变更状态"}
             </Text>
             <Text style={[styles.subTitle]}>
               {info.activityTime}
             </Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
   private _renderTitileIcon(rowData, sectionID, rowID) {
     let oIcon: any;
@@ -284,7 +334,7 @@ export default class Timeline extends Component<Props, State> {
             style={styles.ellipseIcon}
             source={require("../../../../img/timelineellipse.png")}
           />
-          <DashLine isTitle={true} visible={true} style={{flex: 1}} />
+          <DashLine isTitle={true} visible={true} style={{ flex: 1 }} />
         </View>
       );
     } else {
@@ -316,7 +366,6 @@ export default class Timeline extends Component<Props, State> {
                 style={styles.leftTimelineIcon}
                 source={require("../../../../img/timelinestore.png")}
               />
-              <DashLine isTitle={true} visible={true} />
             </View>
           );
           break;
@@ -337,7 +386,6 @@ export default class Timeline extends Component<Props, State> {
                 style={styles.ellipseIcon}
                 source={require("../../../../img/timelineellipse.png")}
               />
-              <DashLine isTitle={true} visible={true} />
             </View>
           );
           break;
