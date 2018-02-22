@@ -46,7 +46,7 @@ export function fetchLeadList(page: number, navigator: any, refresh: boolean = f
         let p = (page - 1) * 20;
         let filterParamters = formatterFilter(params);
 
-        httpFetch(Constants.C4C_ODATA_V1 + "/c4codata/LeanLeadCollection?&$top=20&$skip=" + p + "&$format=json" + filterParamters, navigator, {
+        httpFetch(Constants.C4C_ODATA_V1 + "/c4codata/LeanLeadCollection?&$top=20&$skip=" + p + "&$format=json&CreatSoucre eq '1'" + filterParamters, navigator, {
             method: "GET"
         }).then((res: any) => {
             if (res.ok && res.status === 200) {

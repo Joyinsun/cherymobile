@@ -45,14 +45,14 @@ export function fetchRoleDLeadList(navigator: any, page: number, refresh: boolea
         let p = (page - 1) * 20;
         let filterParamters = formatterFilter(params);
 
-        httpFetch(Constants.C4C_ODATA_V1 + "/c4codata/LeanLeadCollection?&$top=20&$skip=" + p + "&$format=json&CreatSoucre eq '1'" + filterParamters, navigator, {
+        httpFetch(Constants.C4C_ODATA_V1 + "/c4codata/LeanLeadCollection?&$top=20&$skip=" + p + "&$format=json&CreatSoucre eq '2'" + filterParamters, navigator, {
             method: "GET"
         }).then((res: any) => {
             if (res.ok && res.status === 200) {
                 return res.json();
             }
         }).then(res => {
-            const list = _.filter(res.d.results, {CreatSoucre: "1"});
+            const list = _.filter(res.d.results, {CreatSoucre: "2"});
             const data: IPager<ILead> = {
                 list,
                 currentPage: page,
