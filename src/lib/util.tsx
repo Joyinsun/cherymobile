@@ -2,7 +2,7 @@ import _ from "lodash";
 const moment = require("moment");
 import { PixelRatio } from "react-native";
 import * as GlobalVariable from "./global";
-import doXMLHttpRequest from "./doXMLHttpRequest";
+//import doXMLHttpRequest from "./doXMLHttpRequest";
 import * as Constants from "./Constants";
 import ILead from "../app/interfaces/lead";
 
@@ -320,7 +320,7 @@ export default {
     }
     return purchaseDate;
   },
-  getMetaDataURL(targetName: string): string {
+  /*getMetaDataURL(targetName: string): string {
     let url = "";
     switch (targetName) {
       case "activityIntentionLevelList":
@@ -352,8 +352,8 @@ export default {
         break;
     }
     return url;
-  },
-  getMetaDataList(targetName: string): any {
+  },*/
+  /*getMetaDataList(targetName: string): any {
     if (!GlobalVariable.metadata[targetName].loaded) {
       //TODO 如果加载失败
       //TODO 设置metadataURL
@@ -361,7 +361,7 @@ export default {
       GlobalVariable.metadata[targetName].data = doXMLHttpRequest(this.getMetaDataURL(targetName));
     }
     return GlobalVariable.metadata[targetName].data;
-  },
+  },*/
   formatMobile(mobile: string): string {
     return !mobile ? "" : (mobile.startsWith("0000") ? mobile.substring(49, 61) : mobile);
   },

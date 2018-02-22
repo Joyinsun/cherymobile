@@ -24,7 +24,6 @@ function fetchingActivityList(data) {
 export function fetchActivityList(page: number, navigator: any, refresh: boolean = false) {
     return (dispatch: Dispatch<any>) => {
         dispatch(fetchingActivityList({ refresh }));
-        try {
             httpFetch(Constant.CAMPAIGN_LIST_API, navigator, {
                 body: JSON.stringify({
                     "keywords": {
@@ -53,10 +52,7 @@ export function fetchActivityList(page: number, navigator: any, refresh: boolean
                         pageTotal: resJson.totalPages
                     };
                     dispatch(fetchedActivityList({ data }));
-                });
-        } catch (error) {
-            dispatch(fetchedActivityList({ error }));
-        }
+            }).catch((error) => dispatch(fetchedActivityList({ error })));
 
         //mock data
         /* if (page < 2) {

@@ -56,7 +56,7 @@ export default function httpFetch(url: string, navigator: any, options, useGloba
 function requestFromRemote(url: string, navigator: any, options: any, isC4CUrl: boolean, isGetMethod: boolean, useGlobalErrorHandler: boolean = true): any {
     return fetch(url, options).then(function(response) {
         //request success
-        if (response.headers.map["content-type"] && response.headers.map["content-type"][0] === "text/html;charset=UTF-8" && response.ok && response.status === 200) {
+        if (response.headers.map["content-type"] && response.headers.map["content-type"][0].indexOf("text/html") > -1 && response.ok && response.status === 200) {
             return new Promise(function(resolve, reject) {
                 reject("您账户登陆会话已过期");
                 errorHandler("您账户登陆会话已过期", navigator);
