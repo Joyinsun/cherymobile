@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { Component } from "react";
-import { View, Image } from "react-native";
+import { View, Image, Text, TouchableHighlight } from "react-native";
+import MenuItem from "../components/aboutMe/MenuItem";
 import { connect, Dispatch } from "react-redux";
 import { clearSelfMsg } from "../reducers/aboutMe/actions";
 import * as Constants from "../../lib/Constants";
@@ -26,10 +27,10 @@ class Setting extends Component<Props, State> {
   };
 	public render(): JSX.Element {
     return (
-      <View style={styles.settingContainer}>
+      <View>
         <View>
-          <Image source={require("../../../img/logo@3x.png")}
-            style={styles.logoImg} />
+          <MenuItem title={Constants.CN_RESET_PWD} touchableStyle={{ marginTop: 1 }} textStyle={styles.textStyle6} onPress={this.resetPwd.bind(this)} />
+          <View style={styles.bottomLine} />
         </View>
         <View>
           <Button
@@ -40,9 +41,20 @@ class Setting extends Component<Props, State> {
             onPress={this.onPressLogout.bind(this)}>
             {Constants.CN_LOGOUT}
           </Button>
+          <View style={styles.bottomLine} />
           </View>
       </View>
     );
+  }
+  private resetPwd(): void {
+    this.props.navigator.push({
+      title: Constants.CN_RESET_PWD,
+      screen: "app.ResetPwd",
+      animationType: "slide-horizontal",
+      navigatorStyle: {
+        tabBarHidden: true
+      }
+    });
   }
   private onPressLogout(): void {
     this.setState({

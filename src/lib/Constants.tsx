@@ -84,6 +84,7 @@ export const CN_LEAD_CREATED_FAILED = "线索创建失败！";
 export const CN_ORDERED_DRIVE_STATUS = "已预约";
 export const CN_PENDING_DRIVE_STATUS = "待试驾";
 export const CN_TEST_DRIVED_STATUS = "已试驾";
+export const CN_RESET_PWD = "修改密码";
 //-------中文描述------//
 
 //-------Code Key-----//

@@ -11,6 +11,7 @@ import ApprovalLeadDetailScreen from "./app/screens/LeadDetail/Tabs";
 import ApproveScreen from "./app/screens/LeadDetail/ApproveScreen";
 import RejectScreen from "./app/screens/LeadDetail/RejectScreen";
 import Setting from "./app/screens/Setting";
+import ResetPwd from "./app/screens/ResetPwd";
 
 import ConsultantTabsScreen from "./roleA/screens/ConsultantTabsScreen";
 import SearchScreen from "./roleA/screens/SearchScreen";
@@ -68,6 +69,7 @@ export function registerScreens(store: any, provider: any) {
 	Navigation.registerComponent("app.ApproveScreen", () => ApproveScreen, store, provider);
 	Navigation.registerComponent("app.RejectScreen", () => RejectScreen, store, provider);
 	Navigation.registerComponent("app.Setting", () => Setting, store, provider);
+	Navigation.registerComponent("app.ResetPwd", () => ResetPwd, store, provider);
 
 	Navigation.registerComponent("driver.HomeScreen", () => HomeScreen, store, provider);
 	Navigation.registerComponent("driver.TestDriveScreen", () => TestDriveScreen, store, provider);

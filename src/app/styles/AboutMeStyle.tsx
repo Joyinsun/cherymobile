@@ -3,7 +3,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 import * as Constants from "../../lib/Constants";
 const { width, height } = Dimensions.get("window");
-let buttonWidth = width - 48;
+let inputWidth = width - 48;
 
 const aboutMeScreenStyle = StyleSheet.create({
     consuItem: {
@@ -35,19 +35,17 @@ const aboutMeScreenStyle = StyleSheet.create({
   },
   textStyle6: {
     textAlign: "center",
-    color: Constants.COLOR.WHITE,
+    color: Constants.COLOR.DARKGREY,
     fontSize: 18
   },
   buttonContainer: {
-    borderRadius: 5,
-    marginTop: 30,
-    marginBottom: 30,
+    // borderRadius: 5,
+    marginTop: 10,
     height: 44,
-    width: buttonWidth,
     alignSelf: "center",
-    backgroundColor: Constants.COLOR.DARKGREY,
-    borderColor: Constants.COLOR.GREY_999,
-    borderWidth: 0.5
+    backgroundColor: Constants.COLOR.WHITE,
+    borderColor: Constants.COLOR.WHITE,
+    // borderWidth: 0.5
   },
   logoImg: {
     height: 44,
@@ -61,11 +59,31 @@ const aboutMeScreenStyle = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: "#ecedf1"
   },
   buttonDisabled: {
-    backgroundColor: Constants.COLOR.GREY_888
+    backgroundColor: "#dad9d7"
+  },
+  bottomLine: {
+    backgroundColor: Constants.COLOR.LIGHTGREY,
+    height: 1
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    display: "flex",
+    borderWidth: 0.5,
+    borderRadius: 5,
+    height: 44,
+    borderColor: Constants.COLOR.GREY_888,
+    width: inputWidth
+  },
+  mobileInput: {
+    width: 250,
+    alignSelf: "center",
+    fontSize: 15
   }
 });
 
