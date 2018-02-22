@@ -103,7 +103,7 @@ function requestFromRemote(url: string, navigator: any, options: any, isC4CUrl: 
         }
     }).catch((error) => {
         return new Promise(function(resolve, reject) {
-            if (error) {
+            if (error && typeof(error) === "string") {
                 reject(error);
                 if (useGlobalErrorHandler)
                     errorHandler(error, navigator);
