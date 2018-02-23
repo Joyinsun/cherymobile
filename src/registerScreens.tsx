@@ -91,7 +91,7 @@ export function registerScreens(store: any, provider: any) {
 	Navigation.registerComponent("row.MultiSelectScreen", () => MultiSelectScreen, store, provider);
 	Navigation.registerComponent("row.SecondSimpleSelectScreen", () => SecondSimpleSelectScreen, store, provider);
 	Navigation.registerComponent("row.ScanInfoScreen", () => ScanInfoScreen, store, provider);
-	
+
 	Navigation.registerComponent("manager.ManagerHomeScreen", () => ManagerHomeScreen, store, provider);
 	Navigation.registerComponent("manager.ManagerMyCenterScreen", () => ManagerMyCenterScreen, store, provider);
 	Navigation.registerComponent("manager.LeadScreen", () => LeadScreen, store, provider);

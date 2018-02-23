@@ -122,7 +122,7 @@ class MessageTemplateScreen extends React.Component<Props, State> {
     if (event.type == "NavBarButtonPress") {
       if (event.id == "sendMessage") {
         //save message
-        Communications.textWithoutEncoding(this.props.phone, this.state.data[this.state.selectIndex].content);
+          Communications.textWithoutEncoding(this.props.phone, this.state.data[this.state.selectIndex].content);
         this.saveMessage();
         this.props.onSendComplete();
       }
